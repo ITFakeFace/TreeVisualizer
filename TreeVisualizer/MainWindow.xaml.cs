@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TreeVisualizer.Components.ToolBar;
+using TreeVisualizer.Utils.Coordinator;
 
 namespace TreeVisualizer
 {
@@ -23,10 +24,15 @@ namespace TreeVisualizer
         private bool _isRightMousePressed = false;
         public static Dictionary<ToolBarMode, ToolBarItemUserControl> ModeMap;
         public static ToolBarMode BeforeMode { get; set; }
+        public static CoordinateCalculator CoordCalculator { get; set; }
         public MainWindow()
         {
+            var console = new ConsoleProgram();
+            console.Run();
+            CoordCalculator = new CoordinateCalculator(new Coordinate { X = NodeCanvas.Width, Y = NodeCanvas.Height });
             InitializeComponent();
             InitializeProperties();
+            InitializeEvents();
         }
 
         private void InitializeProperties()
@@ -361,10 +367,6 @@ namespace TreeVisualizer
         private bool CreateNode()
         {
             return true;
-        }
-        private void RerenderTree()
-        {
-
         }
 
         private void BtnGenerate_Click(object sender, RoutedEventArgs e)

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP
 D:\Data\HSUUni\HSU IT\SoftwareApplicationDevelopment\SAD_FinalProject\TreeVisualizer\TreeVisualizer\App.xaml
-21541813031
+5-679385945
 
-5-7305225
+1122974415
 2001031969389
-Components\ToolBar\ToolBarItemUserControl.xaml;MainWindow.xaml;
+Components\Algorithm\NodeUserControl.xaml;Components\Algorithm\TreeUserControl.xaml;Components\ToolBar\ToolBarItemUserControl.xaml;MainWindow.xaml;Themes\ThemeResource.xaml;
 
-False
+True
 

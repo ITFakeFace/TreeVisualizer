@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -44,6 +44,12 @@
     <Resource Include="Resources\Static\Images\ToolBar\Search_100px.png" />
     <Resource Include="Resources\Static\Images\ToolBar\Traversal_1300px.png" />
     <Resource Include="Resources\Static\Images\ToolBar\Up_100px.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Algorithm\BinarySearchTree\" />
+    <Folder Include="Components\Algorithm\AVLTree\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
 
 </Project>

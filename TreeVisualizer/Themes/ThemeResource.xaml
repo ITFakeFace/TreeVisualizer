@@ -1,0 +1,14 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!--  Theme cho các node  -->
+    <sys:Double x:Key="NodeSize">75</sys:Double>
+    <sys:Double x:Key="NodeValueSize">32</sys:Double>
+    <SolidColorBrush x:Key="NodeBackground" Color="LightBlue" />
+    <SolidColorBrush x:Key="NodeBackgroundTraversal" Color="Wheat" />
+    <SolidColorBrush x:Key="NodeBackgroundTarget" Color="GreenYellow" />
+    <!--  in seconds  -->
+    <sys:Double x:Key="NodeAnimationDuration">0.3</sys:Double>
+    <sys:Double x:Key="LineAnimationDuration">0.3</sys:Double>
+</ResourceDictionary>

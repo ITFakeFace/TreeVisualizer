@@ -25,6 +25,7 @@ namespace TreeVisualizer
             Tree.AddNode("5");
             Tree.AddNode("4");
             var lnr = Tree.Traverse("LNR");
+
             Console.WriteLine($"Node: {lnr.Count}");
             foreach (var node in lnr)
             {

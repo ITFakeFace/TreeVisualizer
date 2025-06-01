@@ -49,7 +49,6 @@
   <ItemGroup>
     <Folder Include="Components\Algorithm\BinarySearchTree\" />
     <Folder Include="Components\Algorithm\AVLTree\" />
-    <Folder Include="Utils\" />
   </ItemGroup>
 
 </Project>

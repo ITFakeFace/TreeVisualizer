@@ -1007,9 +1007,9 @@
                                 Width="100"
                                 Height="55"
                                 Margin="0,0,0,0"
+                                Click="DeleteSubmit_Click"
                                 Content="Submit_Delete"
-                                FontSize="32"
-                                MouseDown="DeleteSubmit_MouseDown" />
+                                FontSize="32" />
 
 
                         </StackPanel>

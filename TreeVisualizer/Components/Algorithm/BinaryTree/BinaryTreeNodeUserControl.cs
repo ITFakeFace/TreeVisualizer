@@ -8,7 +8,7 @@ namespace TreeVisualizer.Components.Algorithm.BinaryTree
 {
     class BinaryTreeNodeUserControl : NodeUserControl
     {
-        public BinaryTreeNodeUserControl(string value)
+        public BinaryTreeNodeUserControl(string value) : base()
         {
             this.Value = value;
             this.X = 0;

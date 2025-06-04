@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TreeVisualizer.Components.Algorithm;
+using TreeVisualizer.Components.Algorithm.BinaryTree;
 using TreeVisualizer.Components.ToolBar;
 using TreeVisualizer.Utils.Coordinator;
 
@@ -25,14 +27,14 @@ namespace TreeVisualizer
         public static Dictionary<ToolBarMode, ToolBarItemUserControl> ModeMap;
         public static ToolBarMode BeforeMode { get; set; }
         public static CoordinateCalculator CoordCalculator { get; set; }
+        public TreeUserControl Tree { get; set; }
         public MainWindow()
         {
-            var console = new ConsoleProgram();
-            console.Run();
-            CoordCalculator = new CoordinateCalculator(new Coordinate { X = NodeCanvas.Width, Y = NodeCanvas.Height });
             InitializeComponent();
             InitializeProperties();
             InitializeEvents();
+            var console = new ConsoleProgram();
+            console.Run();
         }
 
         private void InitializeProperties()
@@ -40,6 +42,8 @@ namespace TreeVisualizer
             //GridSize = 75;
             //coordinateCalculator = new CoordinateCalculator(new Coordinate(1500, 800), GridSize);
             //NodeGUI<int>.Calculator = coordinateCalculator;
+            CoordCalculator = new CoordinateCalculator(new Coordinate { X = NodeCanvas.Width, Y = NodeCanvas.Height });
+            Tree = new BinaryTreeUserControl();
             ModeMap = new Dictionary<ToolBarMode, ToolBarItemUserControl> {
                 { ToolBarMode.Create, ModeCreate },
                 { ToolBarMode.Update, ModeUpdate },
@@ -51,6 +55,7 @@ namespace TreeVisualizer
                 { ToolBarMode.Traverse, ModeTraverse},
                 { ToolBarMode.ChangeTreeType, ModeChangeTree},
             };
+            NodeCanvas.Children.Add(Tree);
         }
         private void InitializeEvents()
         {
@@ -366,7 +371,17 @@ namespace TreeVisualizer
 
         private bool CreateNode()
         {
-            return true;
+            try
+            {
+                var value = AddField.Text.Trim();
+                int.Parse(value);
+                Tree.AddNode(value);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         private void BtnGenerate_Click(object sender, RoutedEventArgs e)
@@ -380,12 +395,8 @@ namespace TreeVisualizer
         }
         private void DeleteSubmit_Click(object sender, RoutedEventArgs e)
         {
-
-            String text = DeleteValue.Text.ToString();
-            DeleteValue.Focus();
-
-
-
+            Console.WriteLine("Delete Btn Clicked");
+            Tree.RemoveNode(DeleteValue.Text);
         }
 
         private void AmountGenField_GotFocus(object sender, RoutedEventArgs e)

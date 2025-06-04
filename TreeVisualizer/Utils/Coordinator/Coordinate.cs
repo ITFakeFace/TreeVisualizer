@@ -21,7 +21,7 @@ namespace TreeVisualizer.Utils.Coordinator
         }
         public override string ToString()
         {
-            return $"(X:{X},Y:{Y})";
+            return $"Coord{{(X:{X},Y:{Y})}}";
         }
     }
 }

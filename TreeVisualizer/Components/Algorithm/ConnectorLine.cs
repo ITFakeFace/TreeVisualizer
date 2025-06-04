@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -9,124 +10,166 @@ using System.Windows.Shapes;
 
 namespace TreeVisualizer.Components.Algorithm
 {
-    public class ConnectorLine : Shape
-    {
-        public UIElement StartElement
-        {
-            get => (UIElement)GetValue(StartElementProperty);
-            set => SetValue(StartElementProperty, value);
-        }
+    //public class ConnectorLine : Shape
+    //{
+    //    public UIElement StartElement
+    //    {
+    //        get => (UIElement)GetValue(StartElementProperty);
+    //        set => SetValue(StartElementProperty, value);
+    //    }
 
-        public static readonly DependencyProperty StartElementProperty =
-            DependencyProperty.Register(nameof(StartElement), typeof(UIElement), typeof(ConnectorLine),
-                new PropertyMetadata(null, OnStartElementChanged));
+    //    public static readonly DependencyProperty StartElementProperty =
+    //        DependencyProperty.Register(nameof(StartElement), typeof(UIElement), typeof(ConnectorLine),
+    //            new PropertyMetadata(null, OnStartElementChanged));
 
-        public UIElement EndElement
-        {
-            get => (UIElement)GetValue(EndElementProperty);
-            set => SetValue(EndElementProperty, value);
-        }
+    //    public UIElement EndElement
+    //    {
+    //        get => (UIElement)GetValue(EndElementProperty);
+    //        set => SetValue(EndElementProperty, value);
+    //    }
 
-        public static readonly DependencyProperty EndElementProperty =
-            DependencyProperty.Register(nameof(EndElement), typeof(UIElement), typeof(ConnectorLine),
-                new PropertyMetadata(null, OnEndElementChanged));
+    //    public static readonly DependencyProperty EndElementProperty =
+    //        DependencyProperty.Register(nameof(EndElement), typeof(UIElement), typeof(ConnectorLine),
+    //            new PropertyMetadata(null, OnEndElementChanged));
 
-        private static void OnStartElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var line = (ConnectorLine)d;
-            if (e.OldValue is UIElement oldElem)
-                oldElem.LayoutUpdated -= line.OnRelatedElementLayoutUpdated;
-            if (e.NewValue is UIElement newElem)
-                newElem.LayoutUpdated += line.OnRelatedElementLayoutUpdated;
+    //    private static void OnStartElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    //    {
+    //        var line = (ConnectorLine)d;
+    //        if (e.OldValue is UIElement oldElem)
+    //            oldElem.LayoutUpdated -= line.OnRelatedElementLayoutUpdated;
+    //        if (e.NewValue is UIElement newElem)
+    //            newElem.LayoutUpdated += line.OnRelatedElementLayoutUpdated;
 
-            line.InvalidateVisual();
-        }
+    //        //line.InvalidateVisual();
+    //    }
 
-        private static void OnEndElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var line = (ConnectorLine)d;
-            if (e.OldValue is UIElement oldElem)
-                oldElem.LayoutUpdated -= line.OnRelatedElementLayoutUpdated;
-            if (e.NewValue is UIElement newElem)
-                newElem.LayoutUpdated += line.OnRelatedElementLayoutUpdated;
+    //    public ConnectorLine()
+    //    {
+    //        MouseDown += ConnectorLine_MouseDown;
+    //    }
 
-            line.InvalidateVisual();
-        }
+    //    private void ConnectorLine_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    //    {
+    //        var CoordCalc = MainWindow.CoordCalculator;
+    //        Console.WriteLine($"Clicked Line");
+    //        Console.WriteLine($"From: (X:{Canvas.GetLeft(StartElement)}, Y:{Canvas.GetTop(StartElement)})");
+    //        Console.WriteLine($"To: (X:{Canvas.GetLeft(EndElement)}, Y:{Canvas.GetTop(EndElement)})");
+    //    }
 
-        private void OnRelatedElementLayoutUpdated(object sender, EventArgs e)
-        {
-            InvalidateVisual();
-        }
+    //    private static void OnEndElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    //    {
+    //        var line = (ConnectorLine)d;
+    //        if (e.OldValue is UIElement oldElem)
+    //            oldElem.LayoutUpdated -= line.OnRelatedElementLayoutUpdated;
+    //        if (e.NewValue is UIElement newElem)
+    //            newElem.LayoutUpdated += line.OnRelatedElementLayoutUpdated;
+    //        //line.InvalidateVisual();
+    //    }
 
-        protected override Geometry DefiningGeometry
-        {
-            get
-            {
-                if (StartElement == null || EndElement == null)
-                    return Geometry.Empty;
+    //    private void OnRelatedElementLayoutUpdated(object sender, EventArgs e)
+    //    {
+    //        InvalidateVisual();
+    //    }
 
-                Point p1 = GetCenter(StartElement);
-                Point p2 = GetCenter(EndElement);
+    //    protected override Geometry DefiningGeometry
+    //    {
+    //        get
+    //        {
+    //            if (StartElement == null || EndElement == null)
+    //                return Geometry.Empty;
 
-                return new LineGeometry(p1, p2);
-            }
-        }
+    //            Point p1 = GetCenter(StartElement);
+    //            Point p2 = GetCenter(EndElement);
 
-        private Point GetCenter(UIElement element)
-        {
-            if (element == null || VisualTreeHelper.GetParent(element) is not Visual root)
-                return new Point(0, 0);
+    //            return new LineGeometry(p1, p2);
+    //        }
+    //    }
 
-            var transform = element.TransformToAncestor(root);
-            var size = (element as FrameworkElement)?.RenderSize ?? new Size(0, 0);
-            return transform.Transform(new Point(size.Width / 2, size.Height / 2));
-        }
+    //    private Point GetCenter(UIElement element)
+    //    {
+    //        if (element == null)
+    //            return new Point(0, 0);
 
-        // ============================
-        //      ANIMATION METHODS
-        // ============================
+    //        // Lấy vị trí element trên Canvas
+    //        double left = Canvas.GetLeft(element);
+    //        double top = Canvas.GetTop(element);
 
-        public void AnimateAppear()
-        {
-            var animation = new DoubleAnimation(0, 1, GetAnimationDuration())
-            {
-                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
-            };
-            BeginAnimation(OpacityProperty, animation);
-        }
+    //        if (double.IsNaN(left)) left = 0;
+    //        if (double.IsNaN(top)) top = 0;
 
-        public void AnimateDisappear(Action? onCompleted = null)
-        {
-            var animation = new DoubleAnimation(Opacity, 0, GetAnimationDuration())
-            {
-                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn },
-                FillBehavior = FillBehavior.Stop
-            };
+    //        if (element is FrameworkElement fe)
+    //        {
+    //            return new Point(left + fe.Width / 2, top + fe.Height / 2);
+    //        }
 
-            animation.Completed += (s, e) =>
-            {
-                Opacity = 0;
-                onCompleted?.Invoke();
-            };
+    //        // Nếu không phải FrameworkElement thì chỉ trả tọa độ left, top
+    //        return new Point(left, top);
+    //    }
 
-            BeginAnimation(OpacityProperty, animation);
-        }
+    //    // ============================
+    //    //      ANIMATION METHODS
+    //    // ============================
 
-        private Duration GetAnimationDuration()
-        {
-            if (TryFindResource("LineAnimationDuration") is double seconds)
-                return new Duration(TimeSpan.FromSeconds(seconds));
+    //    public void AnimateAppear()
+    //    {
+    //        var animation = new DoubleAnimation(0, 1, GetAnimationDuration())
+    //        {
+    //            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+    //        };
+    //        BeginAnimation(OpacityProperty, animation);
+    //    }
 
-            return new Duration(TimeSpan.FromSeconds(0.3)); // mặc định
-        }
+    //    public void AnimateDisappear(Action? onCompleted = null)
+    //    {
+    //        var animation = new DoubleAnimation(Opacity, 0, GetAnimationDuration())
+    //        {
+    //            EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseIn },
+    //            FillBehavior = FillBehavior.Stop
+    //        };
 
-        protected override void OnInitialized(EventArgs e)
-        {
-            base.OnInitialized(e);
-            Stroke = Brushes.Black;
-            StrokeThickness = 2;
-            Opacity = 0; // khởi đầu ẩn, chờ AnimateAppear()
-        }
-    }
+    //        animation.Completed += (s, e) =>
+    //        {
+    //            Opacity = 0;
+    //            onCompleted?.Invoke();
+    //        };
+
+    //        BeginAnimation(OpacityProperty, animation);
+    //    }
+
+    //    private Duration GetAnimationDuration()
+    //    {
+    //        if (TryFindResource("LineAnimationDuration") is double seconds)
+    //            return new Duration(TimeSpan.FromSeconds(seconds));
+
+    //        return new Duration(TimeSpan.FromSeconds(0.3)); // mặc định
+    //    }
+
+    //    protected override void OnInitialized(EventArgs e)
+    //    {
+    //        base.OnInitialized(e);
+    //        Stroke = Brushes.Black;
+    //        StrokeThickness = 3;
+    //        Opacity = 0; // khởi đầu ẩn, chờ AnimateAppear()
+    //        Canvas.SetZIndex(this, -1);
+
+    //        this.LayoutUpdated += (s, e) => InvalidateVisual();
+    //        if (StartElement != null)
+    //            StartElement.LayoutUpdated += OnRelatedElementLayoutUpdated;
+    //        if (EndElement != null)
+    //            EndElement.LayoutUpdated += OnRelatedElementLayoutUpdated;
+    //    }
+
+    //    public ConnectorLine Connect(UIElement Start, UIElement End)
+    //    {
+    //        this.StartElement = Start;
+    //        this.EndElement = End;
+    //        return this;
+    //    }
+
+    //    public void UpdateLine()
+    //    {
+    //        InvalidateVisual(); // ép vẽ lại line
+    //    }
+    //}
 }
 

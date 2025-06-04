@@ -5,7 +5,7 @@
     <!--  Theme cho các node  -->
     <sys:Double x:Key="NodeSize">75</sys:Double>
     <sys:Double x:Key="NodeValueSize">32</sys:Double>
-    <SolidColorBrush x:Key="NodeBackground" Color="LightBlue" />
+    <SolidColorBrush x:Key="NodeBackground" Color="White" />
     <SolidColorBrush x:Key="NodeBackgroundTraversal" Color="Wheat" />
     <SolidColorBrush x:Key="NodeBackgroundTarget" Color="GreenYellow" />
     <!--  in seconds  -->

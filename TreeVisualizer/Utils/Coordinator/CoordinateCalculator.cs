@@ -12,7 +12,7 @@ namespace TreeVisualizer.Utils.Coordinator
         // Required Properties
         private Coordinate MapSize { get; set; }
         public List<List<Coordinate>> GridCoordinateMap { get; set; }
-        private Coordinate GridSize { get; set; }
+        public Coordinate GridSize { get; set; }
 
         // Generated Properties
         private int Row { get; set; }

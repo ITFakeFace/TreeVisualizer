@@ -1,0 +1,30 @@
+﻿<UserControl
+    x:Class="TreeVisualizer.Components.ToolBar.ToolBarItemUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TreeVisualizer.Components.ToolBar"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Border
+        x:Name="ItemBorder"
+        Width="75"
+        Height="75"
+        Margin="10,0,10,0"
+        Padding="2"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        Background="White"
+        BorderBrush="Black"
+        BorderThickness="2"
+        CornerRadius="15"
+        RenderTransformOrigin="0.844,0.439">
+        <Image
+            x:Name="ItemImage"
+            Width="50"
+            Height="50"
+            Panel.ZIndex="2"
+            Source="/Resources/Static/Images/ToolBar/Add_100px.png" />
+
+    </Border>
+</UserControl>

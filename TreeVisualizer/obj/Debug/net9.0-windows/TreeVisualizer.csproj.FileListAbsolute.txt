@@ -1,0 +1,9 @@
+D:\Data\HSUUni\HSU IT\SoftwareApplicationDevelopment\SAD_FinalProject\TreeVisualizer\TreeVisualizer\obj\Debug\net9.0-windows\Themes\ThemeResource.baml
+D:\Data\HSUUni\HSU IT\SoftwareApplicationDevelopment\SAD_FinalProject\TreeVisualizer\TreeVisualizer\obj\Debug\net9.0-windows\Components\Algorithm\NodeUserControl.g.cs
+D:\Data\HSUUni\HSU IT\SoftwareApplicationDevelopment\SAD_FinalProject\TreeVisualizer\TreeVisualizer\obj\Debug\net9.0-windows\Components\Algorithm\TreeUserControl.g.cs
+D:\Data\HSUUni\HSU IT\SoftwareApplicationDevelopment\SAD_FinalProject\TreeVisualizer\TreeVisualizer\obj\Debug\net9.0-windows\Components\ToolBar\ToolBarItemUserControl.g.cs
+D:\Data\HSUUni\HSU IT\SoftwareApplicationDevelopment\SAD_FinalProject\TreeVisualizer\TreeVisualizer\obj\Debug\net9.0-windows\MainWindow.g.cs
+D:\Data\HSUUni\HSU IT\SoftwareApplicationDevelopment\SAD_FinalProject\TreeVisualizer\TreeVisualizer\obj\Debug\net9.0-windows\App.g.cs
+D:\Data\HSUUni\HSU IT\SoftwareApplicationDevelopment\SAD_FinalProject\TreeVisualizer\TreeVisualizer\obj\Debug\net9.0-windows\GeneratedInternalTypeHelper.g.cs
+D:\Data\HSUUni\HSU IT\SoftwareApplicationDevelopment\SAD_FinalProject\TreeVisualizer\TreeVisualizer\obj\Debug\net9.0-windows\TreeVisualizer_MarkupCompile.cache
+D:\Data\HSUUni\HSU IT\SoftwareApplicationDevelopment\SAD_FinalProject\TreeVisualizer\TreeVisualizer\obj\Debug\net9.0-windows\TreeVisualizer_MarkupCompile.lref

@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Static\Images\icons8-cancel-48.png" />
+    <None Remove="Resources\Static\Images\Settings_512px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\Add_100px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\BinaryTree_1300px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\Down_100px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\Edit_100px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\Error_100px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\Expand_100px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\Export_512px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\Import_512px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\Move_100px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\Remove_100px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\Save_100px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\Search_100px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\Traversal_1300px.png" />
+    <None Remove="Resources\Static\Images\ToolBar\Up_100px.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Static\Images\icons8-cancel-48.png" />
+    <Resource Include="Resources\Static\Images\Settings_512px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\Add_100px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\BinaryTree_1300px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\Down_100px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\Edit_100px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\Error_100px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\Expand_100px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\Export_512px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\Import_512px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\Move_100px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\Remove_100px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\Save_100px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\Search_100px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\Traversal_1300px.png" />
+    <Resource Include="Resources\Static\Images\ToolBar\Up_100px.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Algorithm\BinarySearchTree\" />
+    <Folder Include="Components\Algorithm\AVLTree\" />
+  </ItemGroup>
+
+</Project>

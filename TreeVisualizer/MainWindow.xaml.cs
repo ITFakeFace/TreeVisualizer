@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TreeVisualizer.Components.Algorithm;
+using TreeVisualizer.Components.Algorithm.BinarySearchTree;
 using TreeVisualizer.Components.Algorithm.BinaryTree;
 using TreeVisualizer.Components.ToolBar;
 using TreeVisualizer.Utils.Coordinator;
@@ -42,7 +43,7 @@ namespace TreeVisualizer
             //GridSize = 75;
             //coordinateCalculator = new CoordinateCalculator(new Coordinate(1500, 800), GridSize);
             //NodeGUI<int>.Calculator = coordinateCalculator;
-            CoordCalculator = new CoordinateCalculator(new Coordinate { X = NodeCanvas.Width, Y = NodeCanvas.Height });
+            CoordCalculator = new CoordinateCalculator(new Coordinate { X = canvas.Width, Y = canvas.Height });
             Tree = new BinaryTreeUserControl();
             ModeMap = new Dictionary<ToolBarMode, ToolBarItemUserControl> {
                 { ToolBarMode.Create, ModeCreate },
@@ -55,7 +56,7 @@ namespace TreeVisualizer
                 { ToolBarMode.Traverse, ModeTraverse},
                 { ToolBarMode.ChangeTreeType, ModeChangeTree},
             };
-            NodeCanvas.Children.Add(Tree);
+            canvas.Children.Add(Tree);
         }
         private void InitializeEvents()
         {
@@ -188,8 +189,8 @@ namespace TreeVisualizer
                 var vector = cursorPoint - _cursorPrevPos;
                 _cursorPrevPos = cursorPoint;
                 //canvas.Strokes.Transform(new Matrix(1, 0, 0, 1, vector.X * (0.1 / _zoom), vector.Y * (0.1 / _zoom)), false);
-                Canvas.SetLeft(NodeCanvas, Canvas.GetLeft(NodeCanvas) + vector.X);
-                Canvas.SetTop(NodeCanvas, Canvas.GetTop(NodeCanvas) + vector.Y);
+                Canvas.SetLeft(canvas, Canvas.GetLeft(canvas) + vector.X);
+                Canvas.SetTop(canvas, Canvas.GetTop(canvas) + vector.Y);
             }
         }
 
@@ -285,7 +286,7 @@ namespace TreeVisualizer
             ChangeMode();
         }
 
-        private void NodeCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+        private void canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
         }
@@ -376,10 +377,12 @@ namespace TreeVisualizer
                 var value = AddField.Text.Trim();
                 int.Parse(value);
                 Tree.AddNode(value);
+                JustifyCenterTree();
                 return true;
             }
             catch (Exception ex)
             {
+                Console.WriteLine("MainWindow: Exception when Create: " + ex.Message);
                 return false;
             }
         }
@@ -397,6 +400,7 @@ namespace TreeVisualizer
         {
             Console.WriteLine("Delete Btn Clicked");
             Tree.RemoveNode(DeleteValue.Text);
+            JustifyCenterTree();
         }
 
         private void AmountGenField_GotFocus(object sender, RoutedEventArgs e)
@@ -561,8 +565,6 @@ namespace TreeVisualizer
 
         }
 
-
-
         private void BtnBeforeChange_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -679,6 +681,29 @@ namespace TreeVisualizer
         private void BtnFind_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void JustifyCenterTree()
+        {
+            var treeSize = CoordCalculator.GetNodeCoordinate(Tree.GetMaxX() + 1, Tree.GetMaxY() + 1);
+            double canvasCenterX = (canvas.ActualWidth - treeSize.X) / 2;
+            double canvasCenterY = (canvas.ActualHeight - treeSize.Y) / 2; // hoặc tính toán tùy node root
+
+            Tree.GoTo(canvasCenterX, canvasCenterY);
+        }
+
+        private void RadioBinaryTree_Checked(object sender, RoutedEventArgs e)
+        {
+            Tree = new BinaryTreeUserControl();
+            canvas.Children.Clear();
+            canvas.Children.Add(Tree);
+        }
+
+        private void RadioBSTree_Checked(object sender, RoutedEventArgs e)
+        {
+            Tree = new BinarySearchTreeUserControl();
+            canvas.Children.Clear();
+            canvas.Children.Add(Tree);
         }
     }
 }

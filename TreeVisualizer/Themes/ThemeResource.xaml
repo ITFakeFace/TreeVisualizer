@@ -8,6 +8,8 @@
     <SolidColorBrush x:Key="NodeBackground" Color="White" />
     <SolidColorBrush x:Key="NodeBackgroundTraversal" Color="Wheat" />
     <SolidColorBrush x:Key="NodeBackgroundTarget" Color="GreenYellow" />
+    <SolidColorBrush x:Key="NodeBackgroundDelete" Color="OrangeRed" />
+    <SolidColorBrush x:Key="NodeBackgroundDisable" Color="Gray" />
     <!--  in seconds  -->
     <sys:Double x:Key="NodeAnimationDuration">0.3</sys:Double>
     <sys:Double x:Key="LineAnimationDuration">0.3</sys:Double>

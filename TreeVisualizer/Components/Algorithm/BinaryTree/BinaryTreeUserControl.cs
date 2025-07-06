@@ -9,8 +9,6 @@ namespace TreeVisualizer.Components.Algorithm.BinaryTree
 {
     class BinaryTreeUserControl : TreeUserControl
     {
-        HashSet<string> NodeValues = new HashSet<string>();
-        public int AddNodeTraversalDelay { get; set; } = 300;
         public BinaryTreeUserControl() : base()
         {
 
@@ -26,15 +24,26 @@ namespace TreeVisualizer.Components.Algorithm.BinaryTree
             }
             value = value.Trim().ToLower();
 
-            if (NodeValues.Contains(value))
+            if (HasValue(value))
             {
                 MessageBox.Show($"Node {value} existed !", "Create Node Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return null;
             }
 
-            var newNode = new BinaryTreeNodeUserControl(value);
+            var newNode = new BinaryNodeUserControl(value);
             NodeList.Add(newNode);
-            NodeValues.Add(value);
+            Console.WriteLine("BinaryTree AddNode: ");
+            Console.WriteLine("- NodeList: " + NodeList.Count);
+            foreach (var node in NodeList)
+            {
+                node.PrintNodeInfo();
+            }
+            Console.WriteLine("- LineList: " + LineList.Count);
+            foreach (var line in LineList)
+            {
+                line.PrintLineInfo();
+            }
+            Console.WriteLine("- TreeCanvas.Children: " + TreeCanvas.Children.Count);
 
             if (Root is null)
             {
@@ -48,7 +57,7 @@ namespace TreeVisualizer.Components.Algorithm.BinaryTree
             while (queue.Count > 0)
             {
                 NodeUserControl current = queue.Dequeue();
-                SetPathFromRoot(current, NodeVisualState.Traversal);
+                SetStateFromRoot(current, NodeVisualState.Traversal);
                 Thread.Sleep(AddNodeTraversalDelay);
 
                 if (current.LeftNode == null)
@@ -75,10 +84,7 @@ namespace TreeVisualizer.Components.Algorithm.BinaryTree
                     queue.Enqueue(current.RightNode);
                 }
                 ResetNodeAndChildState(Root);
-
             }
-
-            NodeValues.Remove(value);
             return null;
         }
 
@@ -89,41 +95,35 @@ namespace TreeVisualizer.Components.Algorithm.BinaryTree
             {
                 MessageBox.Show($"Node {value} not existed !", "Delete Node Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            var deepestNode = FindDeepestNode(targetNode);
+            // Or victimNode
+            var deepestNode = FindDeepestNode(Root);
+
+            NodeList.Remove(targetNode);
+            if (targetNode == Root && NodeList.Count == 0 && Root != null)
+            {
+                Root.FadeOut();
+                Root = null;
+                return targetNode;
+            }
+
             if (targetNode == deepestNode)
             {
+                ClearRelative(targetNode);
                 DeleteNodeInCanvas(targetNode, null);
             }
             else
             {
+                SwapRelative(targetNode, deepestNode);
+                ClearRelative(targetNode);
+
                 DeleteNodeInCanvas(targetNode, deepestNode);
             }
-            NodeValues.Remove(value);
+            Console.WriteLine("Delete Node:");
+            Console.WriteLine("Target Node: ");
+            targetNode?.Click();
+            Console.WriteLine("Victim Node: ");
+            deepestNode?.Click();
             return targetNode;
-        }
-
-        public NodeUserControl? FindDeepestNode(NodeUserControl? node)
-        {
-            if (node == null)
-                return null;
-
-            Queue<NodeUserControl> queue = new();
-            queue.Enqueue(node);
-
-            NodeUserControl? deepest = null;
-
-            while (queue.Count > 0)
-            {
-                deepest = queue.Dequeue();
-
-                if (deepest.LeftNode != null)
-                    queue.Enqueue(deepest.LeftNode);
-
-                if (deepest.RightNode != null)
-                    queue.Enqueue(deepest.RightNode);
-            }
-
-            return deepest;
         }
     }
 }

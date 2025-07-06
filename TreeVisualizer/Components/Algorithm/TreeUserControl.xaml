@@ -8,6 +8,9 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Canvas x:Name="TreeCanvas" />
+    <!--  Border giúp debug kích thước  -->
+    <Border BorderBrush="Transparent" BorderThickness="2">
+        <Canvas x:Name="TreeCanvas" />
+    </Border>
 
 </UserControl>

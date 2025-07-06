@@ -24,7 +24,9 @@ namespace TreeVisualizer.Components.Algorithm
     {
         Default,
         Traversal,
-        Target
+        Target,
+        Disable,
+        Delete
     }
     public partial class NodeUserControl : UserControl
     {
@@ -32,6 +34,8 @@ namespace TreeVisualizer.Components.Algorithm
         public NodeUserControl? ParentNode { get; set; } = null;
         public NodeUserControl? LeftNode { get; set; } = null;
         public NodeUserControl? RightNode { get; set; } = null;
+        public int AddNodeTraversalDelay { get; set; } = 300;
+
         public NodeUserControl()
         {
             InitializeComponent();
@@ -129,8 +133,27 @@ namespace TreeVisualizer.Components.Algorithm
 
         private void NodeUserControl_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            TriggerMouseDownEvent();
+        }
+
+        public void Click()
+        {
+            TriggerMouseDownEvent();
+        }
+
+        public void PrintNodeInfo()
+        {
+            Console.WriteLine($"- Node: {Value}");
+            Console.WriteLine($" - ParentNode: {ParentNode?.Value}");
+            Console.WriteLine($" - LeftNode: {LeftNode?.Value}");
+            Console.WriteLine($" - RightNode: {RightNode?.Value}");
+        }
+
+        private void TriggerMouseDownEvent()
+        {
             var CoordCalc = MainWindow.CoordCalculator;
-            Console.WriteLine($"Clicked Node Coordiate: (X:{X}, Y:{Y}), " + CoordCalc.GetNodeCoordinate(X, Y));
+            Console.WriteLine($"Clicked Node Coordiate: (X:{X}, Y:{Y}), {CoordCalc.GetNodeCoordinate(X, Y)}, Canvas(X:{Canvas.GetLeft(this)}, Y:{Canvas.GetTop(this)})");
+            PrintNodeInfo();
         }
 
         public void SetTraversal(NodeUserControl node, bool status)
@@ -145,15 +168,118 @@ namespace TreeVisualizer.Components.Algorithm
 
         private void UpdateNodeBackground()
         {
-            Brush background = TryFindResource(NodeState switch
+            string resourceKey = NodeState switch
             {
                 NodeVisualState.Traversal => "NodeBackgroundTraversal",
                 NodeVisualState.Target => "NodeBackgroundTarget",
+                NodeVisualState.Delete => "NodeBackgroundDelete",
+                NodeVisualState.Disable => "NodeBackgroundDisable",
                 _ => "NodeBackground"
-            }) as Brush ?? Brushes.Gray;
+            };
 
-            EllipseNode.Fill = background;
+            if (TryFindResource(resourceKey) is SolidColorBrush resourceBrush)
+            {
+                // Clone để tránh lỗi frozen
+                var targetBrush = resourceBrush.Clone();
+
+                // Nếu Fill chưa là SolidColorBrush thì gán trực tiếp (không animate)
+                if (EllipseNode.Fill is not SolidColorBrush currentBrush)
+                {
+                    EllipseNode.Fill = new SolidColorBrush(targetBrush.Color);
+                    return;
+                }
+
+                // Nếu Fill đang là SolidColorBrush nhưng bị frozen, thay thế nó
+                if (currentBrush.IsFrozen)
+                {
+                    currentBrush = new SolidColorBrush(currentBrush.Color);
+                    EllipseNode.Fill = currentBrush;
+                }
+
+                // Animate từ màu hiện tại sang target
+                var animation = new ColorAnimation
+                {
+                    To = targetBrush.Color,
+                    Duration = TimeSpan.FromMilliseconds(300),
+                    EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
+                };
+
+                currentBrush.BeginAnimation(SolidColorBrush.ColorProperty, animation);
+            }
+            else
+            {
+                EllipseNode.Fill = Brushes.Gray;
+            }
         }
+
+        public async Task UpdateNodeBackgroundAsync()
+        {
+            string resourceKey = NodeState switch
+            {
+                NodeVisualState.Traversal => "NodeBackgroundTraversal",
+                NodeVisualState.Target => "NodeBackgroundTarget",
+                NodeVisualState.Delete => "NodeBackgroundDelete",
+                NodeVisualState.Disable => "NodeBackgroundDisable",
+                _ => "NodeBackground"
+            };
+
+            if (TryFindResource(resourceKey) is SolidColorBrush resourceBrush)
+            {
+                var targetColor = resourceBrush.Color;
+
+                if (EllipseNode.Fill is not SolidColorBrush currentBrush || currentBrush.IsFrozen)
+                {
+                    currentBrush = new SolidColorBrush(Colors.Transparent);
+                    EllipseNode.Fill = currentBrush;
+                }
+
+                await AnimateBrushColorAsync(currentBrush, targetColor, TimeSpan.FromMilliseconds(300));
+            }
+            else
+            {
+                EllipseNode.Fill = Brushes.Gray;
+            }
+        }
+
+        public Task AnimateBrushColorAsync(SolidColorBrush brush, Color toColor, TimeSpan duration)
+        {
+            if (brush.IsFrozen)
+            {
+                brush = brush.Clone();
+            }
+
+            var tcs = new TaskCompletionSource<bool>();
+
+            var animation = new ColorAnimation
+            {
+                To = toColor,
+                Duration = new Duration(duration),
+                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
+            };
+
+            animation.Completed += (s, e) => tcs.TrySetResult(true);
+
+            brush.BeginAnimation(SolidColorBrush.ColorProperty, animation);
+
+            return tcs.Task;
+        }
+
+
+
+        public async Task SetNodeStateAsync(NodeVisualState newState)
+        {
+            if (NodeState == newState)
+                return;
+
+            NodeState = newState;
+            await UpdateNodeBackgroundAsync();
+
+            // Những hành động tiếp theo chỉ thực hiện sau khi animation đổi màu xong
+            Console.WriteLine($"Node {Value} has finished color transition to state: {NodeState}");
+        }
+
+
+
 
         private void UpdateSize()
         {
@@ -201,7 +327,7 @@ namespace TreeVisualizer.Components.Algorithm
             return new Duration(TimeSpan.FromSeconds(0.3));
         }
 
-        public void FadeIn()
+        public async Task FadeIn()
         {
             this.Visibility = Visibility.Visible;
 
@@ -212,8 +338,14 @@ namespace TreeVisualizer.Components.Algorithm
                 EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
             };
 
+            var tcs = new TaskCompletionSource<bool>();
+            fadeInAnimation.Completed += (s, e) => tcs.TrySetResult(true);
+
             this.BeginAnimation(UIElement.OpacityProperty, fadeInAnimation);
+
+            await tcs.Task;
         }
+
 
         public void FadeOut(Action? onCompleted = null)
         {
@@ -235,10 +367,11 @@ namespace TreeVisualizer.Components.Algorithm
 
         public void GoTo(double x, double y)
         {
+            Console.WriteLine($"NodeUC: ({Value}) GoTo (X:{x}, Y:{y})");
             // if no change => skip animation => save time
             var CoordCalc = MainWindow.CoordCalculator;
             var coord = CoordCalc.GetNodeCoordinate(X, Y);
-            if (X == x && Y == y)
+            if (Canvas.GetLeft(this) == coord.X && Canvas.GetTop(this) == coord.Y)
             {
                 return;
             }

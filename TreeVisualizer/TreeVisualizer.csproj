@@ -46,9 +46,4 @@
     <Resource Include="Resources\Static\Images\ToolBar\Up_100px.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Components\Algorithm\BinarySearchTree\" />
-    <Folder Include="Components\Algorithm\AVLTree\" />
-  </ItemGroup>
-
 </Project>

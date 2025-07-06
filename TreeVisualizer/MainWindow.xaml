@@ -76,11 +76,13 @@
                         Canvas.Left="210"
                         Canvas.Top="140"
                         ClipToBounds="False">
+                        <!--
                         <Canvas
-                            x:Name="NodeCanvas"
-                            Canvas.Left="0"
-                            Canvas.Top="0"
-                            MouseLeftButtonDown="NodeCanvas_MouseDown" />
+                        x:Name="NodeCanvas"
+                        Canvas.Left="0"
+                        Canvas.Top="0"
+                        MouseLeftButtonDown="NodeCanvas_MouseDown" />
+                        -->
                     </Canvas>
                 </Border>
             </Grid>
@@ -484,13 +486,16 @@
                                 <RadioButton
                                     x:Name="RadioBinaryTree"
                                     Content="Binary Tree"
-                                    GroupName="TreeType" />
+                                    GroupName="TreeType" 
+                                    Checked="RadioBinaryTree_Checked"
+                                    />
                             </Viewbox>
                             <Viewbox Height="60" Margin="30,0,30,0">
                                 <RadioButton
                                     x:Name="RadioBSTree"
                                     Content="Binary Search Tree"
-                                    GroupName="TreeType" />
+                                    GroupName="TreeType"
+                                    Checked="RadioBSTree_Checked"/>
                             </Viewbox>
                             <Viewbox Height="60" Margin="30,0,20,0">
                                 <RadioButton

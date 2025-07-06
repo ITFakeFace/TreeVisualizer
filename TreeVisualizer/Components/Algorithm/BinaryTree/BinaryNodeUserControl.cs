@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TreeVisualizer.Components.Algorithm.BinaryTree
 {
-    class BinaryTreeNodeUserControl : NodeUserControl
+    class BinaryNodeUserControl : NodeUserControl
     {
-        public BinaryTreeNodeUserControl(string value) : base()
+        public BinaryNodeUserControl(string value) : base()
         {
             this.Value = value;
             this.X = 0;

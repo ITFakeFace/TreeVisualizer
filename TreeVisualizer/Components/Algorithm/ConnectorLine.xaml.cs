@@ -91,12 +91,20 @@ namespace TreeVisualizer.Components.Algorithm
 
         private Point GetCenter(UIElement element)
         {
-            if (element is FrameworkElement fe && VisualTreeHelper.GetParent(this) is Visual parent)
+            try
             {
-                var relativeTo = parent as UIElement ?? Window.GetWindow(this);
-                var transform = element.TransformToVisual(relativeTo);
-                var topLeft = transform.Transform(new Point(0, 0));
-                return new Point(topLeft.X + fe.ActualWidth / 2, topLeft.Y + fe.ActualHeight / 2);
+                if (element is FrameworkElement fe && VisualTreeHelper.GetParent(this) is Visual parent)
+                {
+                    var relativeTo = parent as UIElement ?? Window.GetWindow(this);
+                    var transform = element.TransformToVisual(relativeTo);
+                    var topLeft = transform.Transform(new Point(0, 0));
+                    return new Point(topLeft.X + fe.ActualWidth / 2, topLeft.Y + fe.ActualHeight / 2);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
             }
 
             return new Point(0, 0);
@@ -133,6 +141,48 @@ namespace TreeVisualizer.Components.Algorithm
             StartElement = start;
             EndElement = end;
             UpdateLine();
+        }
+
+        public void GoTo(double targetX, double targetY, double durationInSeconds = 0.5)
+        {
+            var currentX = Canvas.GetLeft(this);
+            var currentY = Canvas.GetTop(this);
+
+            if (double.IsNaN(currentX)) currentX = 0;
+            if (double.IsNaN(currentY)) currentY = 0;
+
+            var animX = new DoubleAnimation
+            {
+                From = currentX,
+                To = targetX,
+                Duration = TimeSpan.FromSeconds(durationInSeconds),
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut }
+            };
+
+            var animY = new DoubleAnimation
+            {
+                From = currentY,
+                To = targetY,
+                Duration = TimeSpan.FromSeconds(durationInSeconds),
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut }
+            };
+
+            var storyboard = new Storyboard();
+            storyboard.Children.Add(animX);
+            storyboard.Children.Add(animY);
+
+            Storyboard.SetTarget(animX, this);
+            Storyboard.SetTarget(animY, this);
+
+            Storyboard.SetTargetProperty(animX, new PropertyPath("(Canvas.Left)"));
+            Storyboard.SetTargetProperty(animY, new PropertyPath("(Canvas.Top)"));
+
+            storyboard.Begin();
+        }
+
+        public void PrintLineInfo()
+        {
+            Console.WriteLine($" - Line: From({((NodeUserControl)StartElement).Value}) To({((NodeUserControl)EndElement).Value})");
         }
     }
 }

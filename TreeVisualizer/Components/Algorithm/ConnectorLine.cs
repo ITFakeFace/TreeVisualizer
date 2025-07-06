@@ -45,7 +45,7 @@ namespace TreeVisualizer.Components.Algorithm
 
     //    public ConnectorLine()
     //    {
-    //        MouseDown += ConnectorLine_MouseDown;
+    //        TriggerMouseDownEvent += ConnectorLine_MouseDown;
     //    }
 
     //    private void ConnectorLine_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

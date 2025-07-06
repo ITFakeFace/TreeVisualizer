@@ -1,6 +1,37 @@
-
+# Ignore bin and obj inside TreeVisualizer
 TreeVisualizer/bin/
-
-TreeVisualizer/.vs/
-
 TreeVisualizer/obj/
+
+# Ignore Visual Studio and Rider user files
+TreeVisualizer/*.user
+TreeVisualizer/*.suo
+TreeVisualizer/*.userosscache
+TreeVisualizer/*.sln.docstates
+
+# Ignore generated XAML files
+TreeVisualizer/**/*.g.cs
+TreeVisualizer/**/*.g.i.cs
+TreeVisualizer/**/*.baml
+
+# Ignore build artifacts
+TreeVisualizer/**/*.dll
+TreeVisualizer/**/*.exe
+TreeVisualizer/**/*.pdb
+TreeVisualizer/**/*.cache
+TreeVisualizer/**/*.manifest
+TreeVisualizer/**/*.log
+
+# Ignore local settings and secrets
+TreeVisualizer/appsettings.Development.json
+TreeVisualizer/appsettings.Local.json
+TreeVisualizer/secrets.json
+
+# Ignore test results
+TreeVisualizer/TestResults/
+TreeVisualizer/**/*.trx
+TreeVisualizer/**/*.coverage
+
+# IDE-specific
+TreeVisualizer/.vs/
+TreeVisualizer/.vscode/
+TreeVisualizer/.idea/

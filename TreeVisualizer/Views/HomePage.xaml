@@ -1,0 +1,26 @@
+﻿<Page x:Class="TreeVisualizer.Views.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TreeVisualizer.Views"
+      mc:Ignorable="d" 
+      HorizontalAlignment="Center"
+      d:DesignHeight="1010"
+      d:DesignWidth="1700"
+      Title="HomePage">
+
+    <Grid Background="White">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+
+            <WrapPanel
+                x:Name="ListQuizzCard"
+                Width="1680"
+                Margin="0,10,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                ItemHeight="300"
+                ItemWidth="560" />
+        </ScrollViewer>
+    </Grid>
+</Page>

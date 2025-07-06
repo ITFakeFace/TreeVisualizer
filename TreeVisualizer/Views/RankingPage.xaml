@@ -1,0 +1,100 @@
+﻿<Page x:Class="TreeVisualizer.Views.RankingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TreeVisualizer.Views"
+      mc:Ignorable="d" 
+      Title="RankingPage"
+      d:DesignHeight="1010"
+      d:DesignWidth="1700"
+      >
+    <StackPanel Margin="20" Background="White">
+        <!--  Tiêu đề  -->
+        <StackPanel
+            Margin="0,0,0,30"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="64"
+                FontWeight="Bold"
+                Foreground="#9A7735"
+                Text="🏆 " />
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="64"
+                FontWeight="Bold"
+                Text="Quizz Ranking" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="64"
+                FontWeight="Bold"
+                Foreground="#9A7735"
+                Text=" 🏆" />
+
+        </StackPanel>
+
+        <!--  Bảng dữ liệu  -->
+        <Grid x:Name="RankingTableGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Header  -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Border
+                Grid.Row="0"
+                Grid.Column="0"
+                BorderBrush="Black"
+                BorderThickness="1">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="32"
+                    FontWeight="DemiBold"
+                    Text="Ranking" />
+            </Border>
+            <Border
+                Grid.Row="0"
+                Grid.Column="1"
+                BorderBrush="Black"
+                BorderThickness="1">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="32"
+                    FontWeight="DemiBold"
+                    Text="UserName" />
+            </Border>
+            <Border
+                Grid.Row="0"
+                Grid.Column="2"
+                BorderBrush="Black"
+                BorderThickness="1">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="32"
+                    FontWeight="DemiBold"
+                    Text="Score" />
+            </Border>
+            <Border
+                Grid.Row="0"
+                Grid.Column="3"
+                BorderBrush="Black"
+                BorderThickness="1">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="32"
+                    FontWeight="DemiBold"
+                    Text="Time" />
+            </Border>
+        </Grid>
+    </StackPanel>
+
+</Page>

@@ -1,0 +1,253 @@
+﻿<Page
+    x:Class="TreeVisualizer.Views.QuizzManagementPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:TreeVisualizer.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    Title="QuizzManagementPage"
+    d:DesignHeight="1010"
+    d:DesignWidth="1700"
+    mc:Ignorable="d">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="8*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="5*" />
+        </Grid.ColumnDefinitions>
+        <ListBox
+            x:Name="ListBoxQuestion"
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="20"
+            DisplayMemberPath="Title"
+            FontSize="32"
+            SelectionChanged="ListBoxQuestion_SelectionChanged"
+            SelectionMode="Single" />
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Orientation="Vertical">
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="48"
+                FontWeight="Heavy"
+                Text="Quizz Information" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="8*" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    x:Name="LblTitle"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="20,10"
+                    HorizontalAlignment="Right"
+                    Content="Title *"
+                    FontSize="32"
+                    FontWeight="DemiBold" />
+                <TextBox
+                    x:Name="InpTitle"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="20,10"
+                    FontSize="32" />
+                <Label
+                    x:Name="LblTopic"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="20,10"
+                    HorizontalAlignment="Right"
+                    Content="Topic *"
+                    FontSize="32"
+                    FontWeight="DemiBold" />
+                <ComboBox
+                    x:Name="CBoxTopic"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="400"
+                    Margin="20,10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Background="White"
+                    BorderBrush="Black"
+                    FontSize="32" />
+                <Label
+                    x:Name="LblTimeLimit"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="20,10"
+                    HorizontalAlignment="Right"
+                    Content="Time Limit *"
+                    FontSize="32"
+                    FontWeight="DemiBold" />
+                <xctk:DateTimePicker
+                    x:Name="InpTimeLimit"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Width="400"
+                    Margin="20,10"
+                    HorizontalAlignment="Left"
+                    FontSize="32"
+                    Format="Custom"
+                    FormatString="HH:mm:ss"
+                    Value="00:30:00" />
+                <Label
+                    x:Name="LblAttempNumber"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="20,10"
+                    HorizontalAlignment="Right"
+                    Content="Attemps"
+                    FontSize="32"
+                    FontWeight="DemiBold" />
+                <TextBox
+                    x:Name="InpAttempNumber"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Width="400"
+                    Margin="20,10"
+                    HorizontalAlignment="Left"
+                    FontSize="32" />
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Margin="20,10"
+                    HorizontalAlignment="Right"
+                    Content="Options"
+                    FontSize="32"
+                    FontWeight="DemiBold" />
+                <StackPanel
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="20,10"
+                    Orientation="Vertical">
+                    <CheckBox
+                        x:Name="CheckBoxRandomQuestion"
+                        Margin="0,10"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Content="Randomize Question"
+                        FontSize="16">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                    <CheckBox
+                        x:Name="CheckBoxShowResult"
+                        Margin="0,10"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Content="Show Correct Answer after Submit"
+                        FontSize="16">
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="2" ScaleY="2" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                </StackPanel>
+                <Label
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Margin="20,10"
+                    HorizontalAlignment="Right"
+                    Content="Start At"
+                    FontSize="32"
+                    FontWeight="DemiBold" />
+                <xctk:DateTimePicker
+                    x:Name="InpStartAt"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Width="400"
+                    Margin="20,10"
+                    HorizontalAlignment="Left"
+                    FontSize="32"
+                    Format="Custom"
+                    FormatString="dd/MM/yyyy HH:mm:ss"
+                    Value="{x:Static sys:DateTime.Now}" />
+                <Label
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Margin="20,10"
+                    HorizontalAlignment="Right"
+                    Content="End At"
+                    FontSize="32"
+                    FontWeight="DemiBold" />
+                <xctk:DateTimePicker
+                    x:Name="InpEndAt"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Width="400"
+                    Margin="20,10"
+                    HorizontalAlignment="Left"
+                    FontSize="32"
+                    Format="Custom"
+                    FormatString="dd/MM/yyyy HH:mm:ss"
+                    Value="{x:Static sys:DateTime.Now}" />
+                <StackPanel
+                    Grid.Row="7"
+                    Grid.ColumnSpan="2"
+                    Margin="20,10"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="BtnAdd"
+                        Width="300"
+                        Height="50"
+                        Margin="30,10"
+                        Background="Yellow"
+                        Click="BtnAdd_Click"
+                        Content="Add New Question"
+                        FontSize="32" />
+                    <Button
+                        x:Name="BtnSave"
+                        Width="200"
+                        Height="50"
+                        Margin="30,10"
+                        Background="LightGreen"
+                        Click="BtnSave_Click"
+                        Content="Save"
+                        FontSize="32" />
+
+                    <Button
+                        x:Name="BtnRemove"
+                        Width="200"
+                        Height="50"
+                        Margin="30,10"
+                        Background="IndianRed"
+                        Click="BtnRemove_Click"
+                        Content="Remove"
+                        FontSize="32" />
+                    <Button
+                        x:Name="BtnDetails"
+                        Width="250"
+                        Height="50"
+                        Margin="30,10"
+                        Background="CadetBlue"
+                        Click="BtnDetails_Click"
+                        Content="Go to Details"
+                        FontSize="32" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+    </Grid>
+</Page>

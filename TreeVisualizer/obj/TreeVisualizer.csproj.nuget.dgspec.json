@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Data\\HSUUni\\HSU IT\\SoftwareApplicationDevelopment\\SAD_FinalProject\\TreeVisualizer\\TreeVisualizer\\TreeVisualizer.csproj": {}
+    "C:\\Users\\khoin\\Main\\git\\TreeVisualizer\\TreeVisualizer\\TreeVisualizer.csproj": {}
   },
   "projects": {
-    "D:\\Data\\HSUUni\\HSU IT\\SoftwareApplicationDevelopment\\SAD_FinalProject\\TreeVisualizer\\TreeVisualizer\\TreeVisualizer.csproj": {
+    "C:\\Users\\khoin\\Main\\git\\TreeVisualizer\\TreeVisualizer\\TreeVisualizer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Data\\HSUUni\\HSU IT\\SoftwareApplicationDevelopment\\SAD_FinalProject\\TreeVisualizer\\TreeVisualizer\\TreeVisualizer.csproj",
+        "projectUniqueName": "C:\\Users\\khoin\\Main\\git\\TreeVisualizer\\TreeVisualizer\\TreeVisualizer.csproj",
         "projectName": "TreeVisualizer",
-        "projectPath": "D:\\Data\\HSUUni\\HSU IT\\SoftwareApplicationDevelopment\\SAD_FinalProject\\TreeVisualizer\\TreeVisualizer\\TreeVisualizer.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Data\\HSUUni\\HSU IT\\SoftwareApplicationDevelopment\\SAD_FinalProject\\TreeVisualizer\\TreeVisualizer\\obj\\",
+        "projectPath": "C:\\Users\\khoin\\Main\\git\\TreeVisualizer\\TreeVisualizer\\TreeVisualizer.csproj",
+        "packagesPath": "C:\\Users\\khoin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\khoin\\Main\\git\\TreeVisualizer\\TreeVisualizer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\khoin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -45,11 +45,33 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0-windows7.0": {
           "targetAlias": "net9.0-windows7.0",
+          "dependencies": {
+            "Extended.Wpf.Toolkit": {
+              "target": "Package",
+              "version": "[4.7.25104.5739, )"
+            },
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            },
+            "Microsoft.Extensions.Configuration.EnvironmentVariables": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[9.0.6, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[9.3.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -69,7 +91,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

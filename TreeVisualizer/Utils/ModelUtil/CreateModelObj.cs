@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TreeVisualizer.Views;
 
-namespace MultipleChoice.Utils
+namespace TreeVisualizer.Utils
 {
     class CreateModelObj
     {

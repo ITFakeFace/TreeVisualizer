@@ -16,7 +16,7 @@ namespace TreeVisualizer.Views
     public partial class AttemptResultWindow : Window
     {
         AttemptInfo? attemptInfo;
-        AttempServices services;
+        AttemptServices services;
         AnswerService answerService;
         bool IsResultShowable;
         MenuWindow menu;
@@ -24,9 +24,9 @@ namespace TreeVisualizer.Views
         public AttemptResultWindow(int attempID, int quizzID, MenuWindow menu, bool IsResultShowable)
         {
             InitializeComponent();
-            services = new AttempServices();
+            services = new AttemptServices();
             answerService = new AnswerService();
-            attemptInfo = services.GetAttemptDetailInfo(attempID);
+            attemptInfo = services.GetAttemptInfoByID(attempID);
             this.menu = menu;
             this.IsResultShowable = IsResultShowable;
             // Bind dữ liệu vào Grid

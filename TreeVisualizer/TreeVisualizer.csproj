@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.6" />
     <PackageReference Include="MySql.Data" Version="9.3.0" />
@@ -37,6 +38,11 @@
 
   <ItemGroup>
     <Resource Include="Assets\DefaultImage.jpg" />
+=======
+    <Resource Include="Assets\DefaultImage.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+>>>>>>> bb4215d (fix migration error)
     <Resource Include="Resources\Static\Images\icons8-cancel-48.png" />
     <Resource Include="Resources\Static\Images\Settings_512px.png" />
     <Resource Include="Resources\Static\Images\ToolBar\Add_100px.png" />
@@ -53,6 +59,14 @@
     <Resource Include="Resources\Static\Images\ToolBar\Search_100px.png" />
     <Resource Include="Resources\Static\Images\ToolBar\Traversal_1300px.png" />
     <Resource Include="Resources\Static\Images\ToolBar\Up_100px.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.6" />
+    <PackageReference Include="MySql.Data" Version="9.3.0" />
   </ItemGroup>
 
 </Project>

@@ -32,7 +32,7 @@ namespace TreeVisualizer.Components.QuizzComponent
 
         private readonly UserService _userService = new UserService();
         private readonly QuizzDetailsService _quizzDetailsService = new QuizzDetailsService();
-        private readonly AttempServices _attempServices = new AttempServices();
+        private readonly AttemptServices _attempServices = new AttemptServices();
         public Quizz Quizz
         {
             get => (Quizz)GetValue(QuizzProperty);

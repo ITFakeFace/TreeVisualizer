@@ -184,7 +184,7 @@ namespace TreeVisualizer.Repositories
             }
             return result;
         }
-        public (int correctNumber, int totalQuestions)? GetAttemptScoreDetails(int attemptId)
+        public DetailsScore? GetDetailsScore(int attemptId)
         {
             using (var conn = GetConnection())
             {
@@ -209,7 +209,13 @@ namespace TreeVisualizer.Repositories
                         {
                             int correct = reader.GetInt32("correct_number");
                             int total = reader.GetInt32("total_questions");
-                            return (correct, total);
+
+                            return new DetailsScore
+                            {
+                                CorrectNumber = correct,
+                                TotalQuestion = total,
+                                Score = total > 0 ? correct * 10 / total : 0
+                            };
                         }
                     }
                 }
@@ -255,12 +261,29 @@ namespace TreeVisualizer.Repositories
                 }
             }
         }
-        // Place this method within your AttempRepository class
-        // (e.g., internal class AttempRepository : BaseRepository)
-
-        public List<AttemptDto> GetRawUserAttemptData(int answeredBy)
+        public int GetHistoryAttempts(int userId, int quizzId)
         {
-            List<AttemptDto> results = new();
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+
+                string sql = @"SELECT COUNT(*) as ATTEMPS
+                       FROM attemps
+                       WHERE answered_by = @UserId AND quizz_id = @QuizzId";
+
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@QuizzId", quizzId);
+
+                    return Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+        }
+
+        public List<UserAttempt> GetAttemptsByUserID(int answeredBy)
+        {
+            List<UserAttempt> results = new List<UserAttempt>();
 
             using (var conn = GetConnection())
             {
@@ -278,9 +301,9 @@ namespace TreeVisualizer.Repositories
                 a.complete
             FROM attemps a
             JOIN (
-                SELECT qd.quizz_id, COUNT(qd.id) AS total_number
-                FROM quizzdetails qd
-                GROUP BY qd.quizz_id
+                SELECT q.quizz_id, COUNT(q.id) AS total_number
+                FROM quizzdetails q
+                GROUP BY q.quizz_id
             ) AS qc ON a.quizz_id = qc.quizz_id
             WHERE a.answered_by = @answeredBy";
 
@@ -292,22 +315,21 @@ namespace TreeVisualizer.Repositories
                     {
                         while (reader.Read())
                         {
-                            results.Add(new AttemptDto
+                            UserAttempt result = new UserAttempt()
                             {
-                                CorrectNumber = reader.GetInt32("correct_number"),
-                                Time = reader.GetTimeSpan("time"),
-                                StartAt = reader.GetDateTime("start_at"),
-                                QuizzTitle = reader.GetString("quizz"),
-                                TotalNumber = reader.GetInt32("total_number"),
-                                Complete = reader.GetBoolean("complete")
-                            });
+                                Quizz = reader["quizz"].ToString(),
+                                Score = (float)Math.Round(((float)Convert.ToInt32(reader["correct_number"]) * 10 / Convert.ToInt32(reader["total_number"])), 2),
+                                Time = (TimeSpan)reader["time"],
+                                StartAt = Convert.ToDateTime(reader["start_at"]),
+                                IsCompleted = reader["complete"].ToString() == "True" ? "Completed" : "Not Completed"
+                            };
+                            results.Add(result);
                         }
+                        return results;
                     }
                 }
             }
-            return results;
         }
-
         public int CountQuizzDetailsByAttempt(int userId, int quizzId)
         {
             using (var conn = GetConnection())

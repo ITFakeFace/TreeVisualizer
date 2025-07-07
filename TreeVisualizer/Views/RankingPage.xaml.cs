@@ -24,7 +24,7 @@ namespace TreeVisualizer.Views
     public partial class RankingPage : Page
     {
         public int QuizzId { get; set; }
-        private readonly AttempServices _attempServices = new AttempServices();
+        private readonly AttemptServices _attempServices = new AttemptServices();
         private readonly UserService _userServices = new UserService();
         private readonly QuizzDetailsService _quizzDetailsServices = new QuizzDetailsService();
         public RankingPage(int quizzId)

@@ -14,5 +14,8 @@
     <Compile Update="Components\ToolBar\ToolBarItemUserControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\AccountDetailPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

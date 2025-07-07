@@ -1,21 +1,10 @@
-﻿using MultipleChoice.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using TreeVisualizer.Models;
 using TreeVisualizer.Services;
-using TreeVisualizer.Views;
+using TreeVisualizer.Utils;
 
 namespace TreeVisualizer.Views
 {
@@ -25,7 +14,7 @@ namespace TreeVisualizer.Views
     public partial class QuizzTakingWindow : Window
     {
         QuizzDetailsService _quizzDetailsService;
-        AttempServices _attempServices;
+        AttemptServices _attempServices;
         AnswerService _answerService;
         List<QuizzDetails> quizzDetails;
         DateTime currentDateTime;
@@ -120,7 +109,7 @@ namespace TreeVisualizer.Views
 
         private void SubmitBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            _attempServices = new AttempServices();
+            _attempServices = new AttemptServices();
             _answerService = new AnswerService();
 
             List<AnswerDTO> answerList = this._quizzAnswerDict.Values.ToList();

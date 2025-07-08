@@ -1,0 +1,64 @@
+﻿<Window x:Class="TreeVisualizer.Views.ErrorMessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Lỗi"
+        Height="200" Width="420"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="White"
+        AllowsTransparency="True">
+
+    <Border CornerRadius="12" BorderBrush="#e74c3c" BorderThickness="2" Background="White" Padding="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Icon + Title -->
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,10">
+                <!-- Icon -->
+                <TextBlock Text="⛔" FontSize="26" Margin="0,0,10,0" Foreground="Red"/>
+                <TextBlock Text="Lỗi hệ thống" FontSize="18" FontWeight="Bold" Foreground="#e74c3c" VerticalAlignment="Center" />
+            </StackPanel>
+
+            <!-- Message -->
+            <TextBlock x:Name="MessageText"
+                       Grid.Row="1"
+                       TextWrapping="Wrap"
+                       FontSize="14"
+                       Foreground="#333"
+                       Margin="2,4,0,0"/>
+
+            <!-- Close Button -->
+            <Button Grid.Row="2"
+                    Content="Đóng"
+                    Width="80"
+                    Height="32"
+                    HorizontalAlignment="Right"
+                    Margin="0,20,0,0"
+                    Background="#e74c3c"
+                    Foreground="White"
+                    FontWeight="SemiBold"
+                    BorderBrush="#e74c3c"
+                    BorderThickness="1"
+                    Cursor="Hand"
+                    Click="Close_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="10,2"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+    </Border>
+</Window>

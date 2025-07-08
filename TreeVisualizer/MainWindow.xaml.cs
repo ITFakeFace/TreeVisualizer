@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -30,11 +30,15 @@ namespace TreeVisualizer
         public static ToolBarMode BeforeMode { get; set; }
         public static CoordinateCalculator CoordCalculator { get; set; }
         public TreeUserControl Tree { get; set; }
+        public TreeService _treeService;
+        private int treeID = -1;
+        public string treeType = "BINARYTREE"; // 0: Binary Tree, 1: Binary Search Tree, 2: AVL Tree
         public MainWindow()
         {
             InitializeComponent();
             InitializeProperties();
             InitializeEvents();
+            _treeService = new TreeService();
             var console = new ConsoleProgram();
             console.Run();
         }
@@ -256,7 +260,7 @@ namespace TreeVisualizer
                     break;
                 case ToolBarMode.Export:
                     ExportMode.Visibility = Visibility.Visible;
-                    index = 6;
+                    index = -2;
                     break;
                 case ToolBarMode.Import:
                     index = 7;
@@ -622,11 +626,6 @@ namespace TreeVisualizer
 
         }
 
-        private void ImportTree(Queue<object>? queue)
-        {
-
-        }
-
         private void ReadFileResult_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
 
@@ -694,6 +693,7 @@ namespace TreeVisualizer
         private void RadioBinaryTree_Checked(object sender, RoutedEventArgs e)
         {
             Tree = new BinaryTreeUserControl();
+            this.treeType = "BINARYTREE";
             canvas.Children.Clear();
             canvas.Children.Add(Tree);
         }
@@ -701,6 +701,7 @@ namespace TreeVisualizer
         private void RadioBSTree_Checked(object sender, RoutedEventArgs e)
         {
             Tree = new BinarySearchTreeUserControl();
+            this.treeType = "BINARYSEARCHTREE";
             canvas.Children.Clear();
             canvas.Children.Add(Tree);
         }
@@ -710,6 +711,20 @@ namespace TreeVisualizer
             Tree = new AVLTreeUserControl();
             canvas.Children.Clear();
             canvas.Children.Add(Tree);
+        }
+
+        private void ModeSave_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(Tree.Root == null)
+            {
+                new ErrorMessageWindow("Tree is empty. Cannot save.").ShowDialog();
+                return;
+            }
+            if(treeID == -1)
+            {
+                new SaveTreeWindow(Tree.Root,this.treeType).ShowDialog();
+                return;
+            }
         }
     }
 }

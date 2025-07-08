@@ -76,6 +76,10 @@
                         Canvas.Left="210"
                         Canvas.Top="140"
                         ClipToBounds="False">
+                        <Canvas
+                            x:Name="TreeContainer"
+                            Canvas.Left="0"
+                            Canvas.Top="0" />
                         <!--
                         <Canvas
                         x:Name="NodeCanvas"
@@ -108,7 +112,10 @@
                 Width="1200"
                 Height="150">
                 <!--  417.5 + 95x (x<6)  -->
-                <Canvas x:Name="ToolBarCursor" Canvas.Left="417.5">
+                <Canvas
+                    x:Name="ToolBarCursor"
+                    Canvas.Left="417.5"
+                    Visibility="Hidden">
                     <Line
                         Stroke="Black"
                         StrokeThickness="2"

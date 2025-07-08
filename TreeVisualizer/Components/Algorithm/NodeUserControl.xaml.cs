@@ -14,6 +14,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TreeVisualizer.Views;
 
 namespace TreeVisualizer.Components.Algorithm
 {
@@ -115,7 +116,7 @@ namespace TreeVisualizer.Components.Algorithm
 
         //private static void OnPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         //{
-        //    var CoordCalc = MainWindow.CoordCalculator;
+        //    var CoordCalc = VisualTreePage.CoordCalculator;
         //    if (d is NodeUserControl control)
         //    {
         //        // Grid Calculating Function
@@ -151,7 +152,7 @@ namespace TreeVisualizer.Components.Algorithm
 
         private void TriggerMouseDownEvent()
         {
-            var CoordCalc = MainWindow.CoordCalculator;
+            var CoordCalc = VisualTreePage.CoordCalculator;
             Console.WriteLine($"Clicked Node Coordiate: (X:{X}, Y:{Y}), {CoordCalc.GetNodeCoordinate(X, Y)}, Canvas(X:{Canvas.GetLeft(this)}, Y:{Canvas.GetTop(this)})");
             PrintNodeInfo();
         }
@@ -369,7 +370,7 @@ namespace TreeVisualizer.Components.Algorithm
         {
             Console.WriteLine($"NodeUC: ({Value}) GoTo (X:{x}, Y:{y})");
             // if no change => skip animation => save time
-            var CoordCalc = MainWindow.CoordCalculator;
+            var CoordCalc = VisualTreePage.CoordCalculator;
             var coord = CoordCalc.GetNodeCoordinate(X, Y);
             if (Canvas.GetLeft(this) == coord.X && Canvas.GetTop(this) == coord.Y)
             {

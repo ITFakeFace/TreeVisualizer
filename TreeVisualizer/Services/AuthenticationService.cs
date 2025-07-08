@@ -1,11 +1,11 @@
-﻿using TreeVisualizer.Models;
-using MultipleChoice.Utils;
+﻿using MultipleChoice.Utils;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TreeVisualizer.Models;
 using TreeVisualizer.Repositories;
 
 namespace TreeVisualizer.Services
@@ -20,7 +20,7 @@ namespace TreeVisualizer.Services
         public int Login(string email, string password)
         {
             var passUtil = new SecurityUtil();
-            return _authRepo.Login(email,password);
+            return _authRepo.Login(email, password);
         }
     }
 }

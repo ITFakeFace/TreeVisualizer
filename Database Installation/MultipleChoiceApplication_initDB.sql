@@ -1,4 +1,4 @@
-
+-- DROP DATABASE sad_final;
 CREATE DATABASE sad_final;
 
 USE sad_final;

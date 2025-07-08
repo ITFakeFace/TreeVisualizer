@@ -63,6 +63,7 @@ namespace TreeVisualizer.Components.Algorithm
             InitializeComponent();
             Loaded += (_, _) => UpdateLine();
             Canvas.SetZIndex(this, -1);
+            MouseDown += OnClick;
         }
 
 
@@ -73,6 +74,8 @@ namespace TreeVisualizer.Components.Algorithm
             InitializeComponent();
             Loaded += (_, _) => UpdateLine();
             Canvas.SetZIndex(this, -1);
+            MouseDown += OnClick;
+
         }
 
         public void UpdateLine()
@@ -183,6 +186,11 @@ namespace TreeVisualizer.Components.Algorithm
         public void PrintLineInfo()
         {
             Console.WriteLine($" - Line: From({((NodeUserControl)StartElement).Value}) To({((NodeUserControl)EndElement).Value})");
+        }
+
+        public void OnClick(object sender, MouseButtonEventArgs e)
+        {
+            PrintLineInfo();
         }
     }
 }

@@ -1,4 +1,4 @@
---NOTE: Not Including Tree Data
+-- NOTE: Not Including Tree Data
 -- Use the database (assuming it's already created)
 -- USE MultipleChoiceApplication;
 

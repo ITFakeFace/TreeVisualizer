@@ -1,23 +1,23 @@
 ﻿<UserControl x:Class="TreeVisualizer.Components.QuizzComponent.QuestionCardUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:TreeVisualizer.Components.QuizzComponent"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              Width="500"
              Height="210"
              d:DesignHeight="210"
              d:DesignWidth="500"
              >
     <Border
-    Width="500"
-    Height="210"
-    Background="White"
-    BorderBrush="#2C3E50"
-    BorderThickness="4"
-    ClipToBounds="true"
-    CornerRadius="30">
+        Width="500"
+        Height="210"
+        Background="White"
+        BorderBrush="#2C3E50"
+        BorderThickness="4"
+        ClipToBounds="true"
+        CornerRadius="30">
         <Grid ClipToBounds="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*" />
@@ -25,80 +25,80 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Border
-            Grid.Column="0"
-            Margin="10"
-            ClipToBounds="True"
-            CornerRadius="20">
+                Grid.Column="0"
+                Margin="10"
+                ClipToBounds="True"
+                CornerRadius="20">
                 <Border.Background>
                     <ImageBrush
-                    x:Name="ImageBox"
-                    ImageSource="pack://application:,,,/Assets/DefaultImage.jpg"
-                    Stretch="UniformToFill" />
+                        x:Name="ImageBox"
+                        ImageSource="pack://application:,,,/Assets/DefaultImage.jpg"
+                        Stretch="UniformToFill" />
                 </Border.Background>
             </Border>
             <StackPanel
-            Grid.Column="1"
-            Margin="5"
-            Orientation="Vertical">
+                Grid.Column="1"
+                Margin="5"
+                Orientation="Vertical">
 
                 <TextBlock
-                x:Name="TxtTitle"
-                Height="80"
-                Margin="0,0,0,5"
-                VerticalAlignment="Center"
-                FontSize="20"
-                FontWeight="Bold"
-                Text="This is a very long Title with multiple content inside it"
-                TextWrapping="Wrap" />
+                    x:Name="TxtTitle"
+                    Height="80"
+                    Margin="0,0,0,5"
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Text="This is a very long Title with multiple content inside it"
+                    TextWrapping="Wrap" />
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <TextBlock
-                    FontSize="16"
-                    Text="Author: "
-                    TextWrapping="Wrap" />
+                        FontSize="16"
+                        Text="Author: "
+                        TextWrapping="Wrap" />
                     <TextBlock
-                    x:Name="TxtAuthor"
-                    FontSize="16"
-                    Text="This is a very long username"
-                    TextWrapping="Wrap" />
+                        x:Name="TxtAuthor"
+                        FontSize="16"
+                        Text="This is a very long username"
+                        TextWrapping="Wrap" />
                 </StackPanel>
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <TextBlock
-                    FontSize="16"
-                    Text="Category: "
-                    TextWrapping="Wrap" />
+                        FontSize="16"
+                        Text="Category: "
+                        TextWrapping="Wrap" />
                     <TextBlock
-                    x:Name="TxtCategory"
-                    FontSize="16"
-                    Text="Example Category"
-                    TextWrapping="Wrap" />
+                        x:Name="TxtCategory"
+                        FontSize="16"
+                        Text="Example Category"
+                        TextWrapping="Wrap" />
                 </StackPanel>
                 <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
                     <TextBlock
-                    FontSize="16"
-                    Text="Question: "
-                    TextWrapping="Wrap" />
+                        FontSize="16"
+                        Text="Question: "
+                        TextWrapping="Wrap" />
                     <TextBlock
-                    x:Name="TxtQuestionNumber"
-                    FontSize="16"
-                    Text="100"
-                    TextWrapping="Wrap" />
+                        x:Name="TxtQuestionNumber"
+                        FontSize="16"
+                        Text="100"
+                        TextWrapping="Wrap" />
                 </StackPanel>
                 <StackPanel
-                x:Name="StatusContainer"
-                Margin="0,0,0,5"
-                Orientation="Horizontal">
+                    x:Name="StatusContainer"
+                    Margin="0,0,0,5"
+                    Orientation="Horizontal">
                     <TextBlock
-                    x:Name="LblStatus"
-                    FontSize="16"
-                    Foreground="Red"
-                    Text="* Status: "
-                    TextWrapping="Wrap" />
+                        x:Name="LblStatus"
+                        FontSize="16"
+                        Foreground="Red"
+                        Text="* Status: "
+                        TextWrapping="Wrap" />
                     <TextBlock
-                    x:Name="TxtStatus"
-                    FontSize="16"
-                    Foreground="Red"
-                    Text="Running out of time"
-                    TextWrapping="Wrap" />
+                        x:Name="TxtStatus"
+                        FontSize="16"
+                        Foreground="Red"
+                        Text="Running out of time"
+                        TextWrapping="Wrap" />
                 </StackPanel>
             </StackPanel>
             <!--  Cột cuối: Hiển thị hai nút  -->
@@ -110,25 +110,25 @@
 
                 <!--  Nút Ranking  -->
                 <Button
-                x:Name="BtnRanking"
-                Grid.Row="0"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                BorderThickness="4"
-                Click="BtnRanking_Click"
-                Content="🏆"
-                FontSize="24"
-                ToolTip="View Ranking">
+                    x:Name="BtnRanking"
+                    Grid.Row="0"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    BorderThickness="4"
+                    Click="BtnRanking_Click"
+                    Content="🏆"
+                    FontSize="24"
+                    ToolTip="View Ranking">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border
-                            x:Name="BorderElement"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="25">
+                                x:Name="BorderElement"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="25">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                             <ControlTemplate.Triggers>
@@ -144,24 +144,24 @@
 
                 <!--  Nút Details  -->
                 <Button
-                x:Name="BtnDetails"
-                Grid.Row="1"
-                Background="Transparent"
-                BorderBrush="Transparent"
-                BorderThickness="4"
-                Content="➡️"
-                FontSize="24"
-                ToolTip="View Details" Click="BtnDetails_Click">
+                    x:Name="BtnDetails"
+                    Grid.Row="1"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    BorderThickness="4"
+                    Content="➡️"
+                    FontSize="24"
+                    ToolTip="View Details" Click="BtnDetails_Click">
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border
-                            x:Name="BorderElement"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="25">
+                                x:Name="BorderElement"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="25">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                             <ControlTemplate.Triggers>

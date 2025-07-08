@@ -8,11 +8,11 @@ using TreeVisualizer.Models;
 
 namespace TreeVisualizer.Repositories
 {
-    internal class UserRepository:BaseRepository
+    internal class UserRepository : BaseRepository
     {
-        public UserRepository() 
+        public UserRepository()
         {
-            
+
         }
         public bool CreateUser(User user)
         {
@@ -22,7 +22,7 @@ namespace TreeVisualizer.Repositories
                 {
                     conn.Open();
                     // Câu lệnh SQL chèn dữ liệu vào bảng users
-                    string sql = @"INSERT INTO multiplechoiceapplication.users (username, password,email) 
+                    string sql = @"INSERT INTO users (username, password,email) 
                                    VALUES (@Username, @Password,@Email)";
                     using (var cmd = new MySqlCommand(sql, conn))
                     {
@@ -35,7 +35,7 @@ namespace TreeVisualizer.Repositories
                 }
                 catch (Exception ex)
                 {
-                   return false;
+                    return false;
                 }
             }
         }

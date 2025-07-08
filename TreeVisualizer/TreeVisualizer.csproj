@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\DefaultImage.jpg" />
     <None Remove="Resources\Static\Images\icons8-cancel-48.png" />
     <None Remove="Resources\Static\Images\Settings_512px.png" />
     <None Remove="Resources\Static\Images\ToolBar\Add_100px.png" />
@@ -28,6 +29,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.6" />
+    <PackageReference Include="MySql.Data" Version="9.3.0" />
+    <PackageReference Include="SshNet.Security.Cryptography" Version="1.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\DefaultImage.jpg" />
     <Resource Include="Resources\Static\Images\icons8-cancel-48.png" />
     <Resource Include="Resources\Static\Images\Settings_512px.png" />
     <Resource Include="Resources\Static\Images\ToolBar\Add_100px.png" />

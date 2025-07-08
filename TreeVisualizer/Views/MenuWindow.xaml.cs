@@ -27,7 +27,7 @@ namespace TreeVisualizer.Views
         {
             InitializeComponent();
             UserId = userId;
-            Console.WriteLine($"UserId: {UserId}"); 
+            Console.WriteLine($"UserId: {UserId}");
             _homePage = new HomePage();
             _quizzPage = new QuizzManagementPage();
             _accountDetailPage = new AccountDetailPage();
@@ -121,9 +121,8 @@ namespace TreeVisualizer.Views
 
         private void BtnTreeVisualize_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            this.Close();
+            TxtPageTitle.Text = "Account Information";
+            MainFrame.Navigate(new VisualTreePage());
         }
     }
 }

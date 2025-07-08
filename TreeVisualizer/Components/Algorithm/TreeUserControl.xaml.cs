@@ -17,6 +17,8 @@ using System.Windows.Shapes;
 using System.Xml.Linq;
 using TreeVisualizer.Components.Algorithm.BinaryTree;
 using TreeVisualizer.Utils.Coordinator;
+using TreeVisualizer.Views;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace TreeVisualizer.Components.Algorithm
 {
@@ -28,8 +30,8 @@ namespace TreeVisualizer.Components.Algorithm
         public int AddNodeTraversalDelay { get; set; } = 300;
 
         public List<NodeUserControl> TraversalList = new List<NodeUserControl>();
-        public List<NodeUserControl> NodeList = new List<NodeUserControl>();
-        public List<ConnectorLine> LineList = new List<ConnectorLine>();
+        public HashSet<NodeUserControl> NodeList = new HashSet<NodeUserControl>();
+        public HashSet<ConnectorLine> LineList = new HashSet<ConnectorLine>();
         public NodeUserControl? Root { get; set; } = null;
         public TreeUserControl()
         {
@@ -45,66 +47,65 @@ namespace TreeVisualizer.Components.Algorithm
         {
             if (node == null) return;
 
-            var CoordCalc = MainWindow.CoordCalculator;
-            var size = MainWindow.CoordCalculator.GridSize;
-            Console.WriteLine("AddNodeInCanvas: NodeList: " + NodeList.Count);
-            Console.WriteLine("AddNodeInCanvas: GridSize: " + size);
+            var coordCalc = VisualTreePage.CoordCalculator;
+            var size = coordCalc.GridSize;
 
-            GenerateIndex(Root);
+            // Gán vị trí tạm thời ban đầu cho node (xuất hiện nhẹ nhàng từ gần gốc)
+            Coordinate appearPos = coordCalc.GetNodeCoordinate(Root == null || NodeList.Count == 1 ? 0 : Root.X + 2, 0);
 
-            if (double.IsNaN(TreeCanvas.Width))
-                TreeCanvas.Width = 0;
-
-            if (double.IsNaN(TreeCanvas.Height))
-                TreeCanvas.Height = 0;
-
-            var maxX = GetMaxX();
-            var maxY = GetMaxY();
-            var updatedSize = CoordCalc.GetNodeCoordinate(maxX + 1, maxY + 1);
-            TreeCanvas.Width = updatedSize.X;
-            TreeCanvas.Height = updatedSize.Y;
-            Console.WriteLine("AddNodeInCanvas: TreeCanvas.Width: " + TreeCanvas.Width);
-            Console.WriteLine("AddNodeInCanvas: TreeCanvas.Height: " + TreeCanvas.Height);
-
-
-            // Appear
-            Coordinate src = CoordCalc.GetNodeCoordinate(Root == null || NodeList.Count == 1 ? 0 : Root.X + 2, 0);
+            // Add node vào canvas & bắt đầu hiệu ứng hiện ra
             TreeCanvas.Children.Add(node);
-            Canvas.SetLeft(node, src.X);
-            Canvas.SetTop(node, src.Y);
-            await node.FadeIn();
-            Thread.Sleep(AddNodeTraversalDelay);
-            // Go to Its Coordinate (if it is already in right coordinate => go to but there's no change position)
+            Canvas.SetLeft(node, appearPos.X);
+            Canvas.SetTop(node, appearPos.Y);
+            await node.FadeIn(); // Node xuất hiện
+
+            // Đợi nhỏ (delay ngắn) để cảm giác từng bước mượt
+            await Task.Delay(AddNodeTraversalDelay);
+
+            // Gọi lại Validate để cập nhật vị trí node và tính lại X/Y
+            ValidateAndFixTreeUI();
+
+            // Di chuyển tất cả node về đúng chỗ của chúng
             foreach (var child in NodeList)
             {
-                Coordinate dest = CoordCalc.GetNodeCoordinate(child.X, child.Y);
+                Coordinate dest = coordCalc.GetNodeCoordinate(child.X, child.Y);
                 child.GoTo(dest.X, dest.Y);
             }
 
-            //Add new ConnectorLine
+            // Cập nhật kích thước canvas sau khi biết vị trí lớn nhất
+            GenerateIndex(Root);
+            var maxX = GetMaxX();
+            var maxY = GetMaxY();
+            var updatedSize = coordCalc.GetNodeCoordinate(maxX + 1, maxY + 1);
+            TreeCanvas.Width = updatedSize.X;
+            TreeCanvas.Height = updatedSize.Y;
+
+            // Nếu có node cha, thêm line kết nối mới
             if (node.ParentNode != null)
             {
-                ConnectorLine line = new ConnectorLine();
+                var line = new ConnectorLine();
                 line.Connect(node.ParentNode, node);
                 LineList.Add(line);
                 TreeCanvas.Children.Add(line);
                 line.AnimateAppear();
             }
-            //Update Old ConnectorLine
-            foreach (var childLine in LineList)
+
+            // Cập nhật lại tất cả đường kết nối
+            foreach (var line in LineList)
             {
-                childLine.UpdateLine();
+                line.UpdateLine();
             }
         }
+
         public void DeleteNodeInCanvas(NodeUserControl? targetNode, NodeUserControl? victimNode)
         {
             if (targetNode == null) return;
 
             // Get canvas size info
-            var size = MainWindow.CoordCalculator.GridSize;
+            var size = VisualTreePage.CoordCalculator.GridSize;
             Console.WriteLine("DeleteNodeInCanvas: NodeList.Count = " + NodeList.Count);
             Console.WriteLine("DeleteNodeInCanvas: GridSize = " + size);
-            var CoordCalc = MainWindow.CoordCalculator;
+            var CoordCalc = VisualTreePage.CoordCalculator;
 
             // Animation: Fade Out
             targetNode.FadeOut(() =>
@@ -142,7 +143,7 @@ namespace TreeVisualizer.Components.Algorithm
                 GenerateIndex(Root);
 
 
-                var coordCalc = MainWindow.CoordCalculator;
+                var coordCalc = VisualTreePage.CoordCalculator;
                 foreach (var child in NodeList)
                 {
                     Coordinate dest = coordCalc.GetNodeCoordinate(child.X, child.Y);
@@ -216,99 +217,120 @@ namespace TreeVisualizer.Components.Algorithm
             Console.WriteLine("Validate and Fix Tree:");
             Console.WriteLine($"Root: {Root?.Value}");
             Console.WriteLine($"NodeList: {NodeList.Count}");
+
             foreach (var node in NodeList)
                 node.PrintNodeInfo();
-            Console.WriteLine($"LineList: {LineList.Count}");
-            var CoordCalc = MainWindow.CoordCalculator;
-            List<NodeUserControl> delNodeList = new List<NodeUserControl>();
-            // Find every Node that not exist in NodeList but still Exist on Canvas
-            foreach (var child in TreeCanvas.Children)
+
+            var coordCalc = VisualTreePage.CoordCalculator;
+
+            // Xóa Node không còn tồn tại
+            List<NodeUserControl> delNodeList = new();
+            foreach (var child in TreeCanvas.Children.OfType<NodeUserControl>())
+                if (!NodeList.Contains(child))
+                    delNodeList.Add(child);
+
+            // Xóa Line không hợp lệ (cha sai hoặc trùng line)
+            List<ConnectorLine> delLineList = new();
+            var uniqueLines = new HashSet<(NodeUserControl, NodeUserControl)>();
+
+            foreach (var line in LineList.ToList())
             {
-                if (child is NodeUserControl childNode && !NodeList.Contains(childNode))
+                if (line.StartElement is not NodeUserControl start || line.EndElement is not NodeUserControl end)
                 {
-                    delNodeList.Add(childNode);
+                    delLineList.Add(line);
+                    continue;
+                }
+
+                // Kiểm tra đúng cha-con
+                bool isValidParent =
+                    (end.ParentNode == start && (start.LeftNode == end || start.RightNode == end));
+
+                if (!isValidParent)
+                {
+                    delLineList.Add(line);
+                    continue;
+                }
+
+                // Kiểm tra trùng (A->B đã tồn tại)
+                var key = (start, end);
+                if (!uniqueLines.Add(key))
+                {
+                    delLineList.Add(line);
                 }
             }
 
-            // Find every Lione that not exist in NodeList but still Exist on Canvas
-            List<ConnectorLine> delLineList = new List<ConnectorLine>();
+            // Remove all lines invalid or duplicate
+            foreach (var line in delLineList)
+            {
+                LineList.Remove(line);
+                TreeCanvas.Children.Remove(line);
+            }
+
+            // Remove node không còn dùng
             foreach (var node in delNodeList)
             {
-                foreach (var child in TreeCanvas.Children)
+                foreach (var line in LineList.Where(l => l.StartElement == node || l.EndElement == node).ToList())
                 {
-                    // Find invalid Line
-                    if (child is ConnectorLine line && (line.StartElement == node || line.EndElement == node))
-                    {
-                        delLineList.Add(line);
-                    }
-                }
-                // Remove node validated
-                TreeCanvas.Children.Remove(node);
-                // Remove line invalid
-                foreach (var line in delLineList)
-                {
+                    LineList.Remove(line);
                     TreeCanvas.Children.Remove(line);
                 }
-                // Clear List (avoid remove again)
-                delLineList.Clear();
+
+                TreeCanvas.Children.Remove(node);
             }
+
+            // Rebuild toàn bộ index + vị trí
             GenerateIndex(Root);
             if (Root != null)
             {
-                var coord = CoordCalc.GetNodeCoordinate(Root.X, Root.Y);
-                Root.GoTo(coord.X, coord.Y);
-
+                var rootCoord = coordCalc.GetNodeCoordinate(Root.X, Root.Y);
+                Root.GoTo(rootCoord.X, rootCoord.Y);
             }
+
             foreach (var node in NodeList)
             {
-                // if Node in List but not Show => Show Node
                 if (!TreeCanvas.Children.Contains(node))
-                {
                     TreeCanvas.Children.Add(node);
-                }
-                // if showed => GoTo Destination
-                var coord = CoordCalc.GetNodeCoordinate(node.X, node.Y);
+
+                var coord = coordCalc.GetNodeCoordinate(node.X, node.Y);
                 node.GoTo(coord.X, coord.Y);
-                Console.WriteLine($"Node ({node.Value}) GoTo (X: {coord.X}, Y:{coord.Y})");
 
-                Console.WriteLine($"Line: Node({node.Value})");
-                // Validate Line
-                Console.WriteLine($"Line: Parent(Val:{node.ParentNode?.Value}, HasLine: {LineList.FindAll(line => line.StartElement == node.ParentNode && line.EndElement == node).Count > 0})");
-                if (node.ParentNode != null && LineList.FindAll(line => line.StartElement == node.ParentNode && line.EndElement == node).Count <= 0)
+                // Tạo các line nếu chưa tồn tại
+                void TryAddLine(NodeUserControl? start, NodeUserControl? end)
                 {
-                    var line = new ConnectorLine();
-                    line.Connect(node.ParentNode, node);
-                    LineList.Add(line);
-                    line.AnimateAppear();
-                    TreeCanvas.Children.Add(line);
+                    if (start == null || end == null) return;
+
+                    bool exists = LineList.Any(line =>
+                        line.StartElement == start && line.EndElement == end);
+
+                    if (!exists)
+                    {
+                        var line = new ConnectorLine();
+                        line.Connect(start, end);
+                        LineList.Add(line);
+                        TreeCanvas.Children.Add(line);
+                        line.AnimateAppear();
+                    }
                 }
 
-                Console.WriteLine($"Line: Left(Val:{node.LeftNode?.Value}, HasLine: {LineList.FindAll(line => line.StartElement == node && line.EndElement == node.LeftNode).Count > 0})");
-                if (node.LeftNode != null && LineList.FindAll(line => line.StartElement == node && line.EndElement == node.LeftNode).Count <= 0)
-                {
-                    var line = new ConnectorLine();
-                    line.Connect(node, node.LeftNode);
-                    LineList.Add(line);
-                    line.AnimateAppear();
-                    TreeCanvas.Children.Add(line);
-                }
-
-                Console.WriteLine($"Line: Right(Val:{node.RightNode?.Value}, HasLine: {LineList.FindAll(line => line.StartElement == node && line.EndElement == node.RightNode).Count > 0})");
-                if (node.RightNode != null && LineList.FindAll(line => line.StartElement == node && line.EndElement == node.RightNode).Count <= 0)
-                {
-                    var line = new ConnectorLine();
-                    line.Connect(node, node.RightNode);
-                    LineList.Add(line);
-                    line.AnimateAppear();
-                    TreeCanvas.Children.Add(line);
-                }
+                TryAddLine(node.ParentNode, node);
+                TryAddLine(node, node.LeftNode);
+                TryAddLine(node, node.RightNode);
             }
+
+            // Cập nhật lại canvas size
             var maxX = GetMaxX();
             var maxY = GetMaxY();
-            var newSize = CoordCalc.GetNodeCoordinate(maxX + 1, maxY + 1);
+            var newSize = coordCalc.GetNodeCoordinate(maxX + 1, maxY + 1);
             TreeCanvas.Width = newSize.X;
             TreeCanvas.Height = newSize.Y;
+
+            // Update lại toàn bộ line position
+            foreach (var line in LineList)
+                line.UpdateLine();
+
+            Console.WriteLine("End Validate and Fix Tree\n");
         }
+
 
         public void GenerateIndex(NodeUserControl? node)
         {
@@ -549,13 +571,13 @@ namespace TreeVisualizer.Components.Algorithm
                 Root = node1;
             Console.WriteLine($"Swapping Node:");
             Console.WriteLine($"Node1: Node({node1.Value})");
-            Console.WriteLine($" - Parent(Val:{node1.ParentNode?.Value}, HasLine: {LineList.FindAll(line => line.StartElement == node1.ParentNode && line.EndElement == node1).Count > 0})");
-            Console.WriteLine($" - Left(Val:{node1.LeftNode?.Value}, HasLine: {LineList.FindAll(line => line.StartElement == node1 && line.EndElement == node1.LeftNode).Count > 0})");
-            Console.WriteLine($" - Right(Val:{node1.RightNode?.Value}, HasLine: {LineList.FindAll(line => line.StartElement == node1 && line.EndElement == node1.RightNode).Count > 0})");
+            Console.WriteLine($" - Parent(Val:{node1.ParentNode?.Value}, HasLine: {LineList.Where(line => line.StartElement == node1.ParentNode && line.EndElement == node1).ToList().Count > 0})");
+            Console.WriteLine($" - Left(Val:{node1.LeftNode?.Value}, HasLine: {LineList.Where(line => line.StartElement == node1 && line.EndElement == node1.LeftNode).ToList().Count > 0})");
+            Console.WriteLine($" - Right(Val:{node1.RightNode?.Value}, HasLine: {LineList.Where(line => line.StartElement == node1 && line.EndElement == node1.RightNode).ToList().Count > 0})");
             Console.WriteLine($"Node2: Node({node2.Value})");
-            Console.WriteLine($" - Parent(Val:{node2.ParentNode?.Value}, HasLine: {LineList.FindAll(line => line.StartElement == node2.ParentNode && line.EndElement == node2).Count > 0})");
-            Console.WriteLine($" - Left(Val:{node2.LeftNode?.Value}, HasLine: {LineList.FindAll(line => line.StartElement == node2 && line.EndElement == node2.LeftNode).Count > 0})");
-            Console.WriteLine($" - Right(Val:{node2.RightNode?.Value}, HasLine: {LineList.FindAll(line => line.StartElement == node2 && line.EndElement == node2.RightNode).Count > 0})");
+            Console.WriteLine($" - Parent(Val:{node2.ParentNode?.Value}, HasLine: {LineList.Where(line => line.StartElement == node2.ParentNode && line.EndElement == node2).ToList().Count > 0})");
+            Console.WriteLine($" - Left(Val:{node2.LeftNode?.Value}, HasLine: {LineList.Where(line => line.StartElement == node2 && line.EndElement == node2.LeftNode).ToList().Count > 0})");
+            Console.WriteLine($" - Right(Val:{node2.RightNode?.Value}, HasLine: {LineList.Where(line => line.StartElement == node2 && line.EndElement == node2.RightNode).ToList().Count > 0})");
         }
 
 

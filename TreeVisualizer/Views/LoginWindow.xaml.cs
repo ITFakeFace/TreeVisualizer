@@ -32,8 +32,8 @@ namespace TreeVisualizer.Views
         public LoginWindow()
         {
             InitializeComponent();
-            InpLoginEmail.Text = "mathettatc3@gmail.com";
-            InpLoginPassword.Password = "1";
+            InpLoginEmail.Text = "dthung6604@gmail.com";
+            InpLoginPassword.Password = "123456";
         }
         private void BtnAnimationRegister_Click(object sender, RoutedEventArgs e)
         {
@@ -340,7 +340,7 @@ namespace TreeVisualizer.Views
                 LblLoginPassword.Foreground = Brushes.Red;
                 return;
             }
-            //Reset Formatss
+            //Reset Formats
             InpLoginEmail.BorderBrush = Brushes.Black;
             InpLoginEmail.Foreground = Brushes.Black;
             LblLoginEmail.Foreground = Brushes.Black;

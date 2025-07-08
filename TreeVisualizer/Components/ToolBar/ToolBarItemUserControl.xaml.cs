@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TreeVisualizer.Views;
 
 namespace TreeVisualizer.Components.ToolBar
 {
@@ -108,7 +109,7 @@ namespace TreeVisualizer.Components.ToolBar
         {
             isActive = true;
             DisableAll();
-            MainWindow.ModeMap[Mode].isActive = true;
+            VisualTreePage.ModeMap[Mode].isActive = true;
             //RadialGradientBrush GradientBrush = new RadialGradientBrush();
             //GradientBrush.GradientStops.Add(new GradientStop(Colors.Blue, 1));
             //GradientBrush.GradientStops.Add(new GradientStop(Colors.Pink, 1));
@@ -123,7 +124,7 @@ namespace TreeVisualizer.Components.ToolBar
         public void Disable()
         {
             isActive = false;
-            MainWindow.ModeMap[Mode].isActive = false;
+            VisualTreePage.ModeMap[Mode].isActive = false;
             SolidColorBrush SolidBrush = new SolidColorBrush();
             SolidBrush.Color = Colors.White;
             ItemBorder.Background = SolidBrush;
@@ -131,10 +132,10 @@ namespace TreeVisualizer.Components.ToolBar
 
         public static void DisableAll()
         {
-            foreach (ToolBarMode Mode in MainWindow.ModeMap.Keys)
+            foreach (ToolBarMode Mode in VisualTreePage.ModeMap.Keys)
             {
-                MainWindow.ModeMap[Mode].isActive = false;
-                MainWindow.ModeMap[Mode].Disable();
+                VisualTreePage.ModeMap[Mode].isActive = false;
+                VisualTreePage.ModeMap[Mode].Disable();
             }
         }
     }

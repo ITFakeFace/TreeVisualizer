@@ -22,7 +22,6 @@ namespace TreeVisualizer.Repositories
             // Lấy các giá trị từ appsettings.json
             string connectionString = _configuration.GetConnectionString("MySqlConnection");
             return new MySqlConnection(connectionString);
-
         }
     }
 }

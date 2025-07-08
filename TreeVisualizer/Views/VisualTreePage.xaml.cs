@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,12 +19,12 @@ using TreeVisualizer.Components.Algorithm.BinaryTree;
 using TreeVisualizer.Components.ToolBar;
 using TreeVisualizer.Utils.Coordinator;
 
-namespace TreeVisualizer
+namespace TreeVisualizer.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for VisualTreePage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class VisualTreePage : Page
     {
         private double _zoom = 0.1;
         private bool _isUpdatingZoom = false;
@@ -30,7 +34,7 @@ namespace TreeVisualizer
         public static ToolBarMode BeforeMode { get; set; }
         public static CoordinateCalculator CoordCalculator { get; set; }
         public TreeUserControl Tree { get; set; }
-        public MainWindow()
+        public VisualTreePage()
         {
             InitializeComponent();
             InitializeProperties();

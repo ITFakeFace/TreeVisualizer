@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -52,16 +53,16 @@ namespace TreeVisualizer.Views
             Tree = new BinaryTreeUserControl();
             ModeMap = new Dictionary<ToolBarMode, ToolBarItemUserControl> {
                 { ToolBarMode.Create, ModeCreate },
-                { ToolBarMode.Update, ModeUpdate },
+                //{ ToolBarMode.Update, ModeUpdate },
                 { ToolBarMode.Delete, ModeDelete },
                 { ToolBarMode.Move, ModeMove },
                 { ToolBarMode.Export, ModeSave },
-                { ToolBarMode.Search, ModeSearch },
+                //{ ToolBarMode.Search, ModeSearch },
                 { ToolBarMode.Import, ModeImport },
                 { ToolBarMode.Traverse, ModeTraverse},
                 { ToolBarMode.ChangeTreeType, ModeChangeTree},
             };
-            canvas.Children.Add(Tree);
+            TreeContainer.Children.Add(Tree);
         }
         private void InitializeEvents()
         {
@@ -194,8 +195,8 @@ namespace TreeVisualizer.Views
                 var vector = cursorPoint - _cursorPrevPos;
                 _cursorPrevPos = cursorPoint;
                 //canvas.Strokes.Transform(new Matrix(1, 0, 0, 1, vector.X * (0.1 / _zoom), vector.Y * (0.1 / _zoom)), false);
-                Canvas.SetLeft(canvas, Canvas.GetLeft(canvas) + vector.X);
-                Canvas.SetTop(canvas, Canvas.GetTop(canvas) + vector.Y);
+                Canvas.SetLeft(TreeContainer, Canvas.GetLeft(TreeContainer) + vector.X);
+                Canvas.SetTop(TreeContainer, Canvas.GetTop(TreeContainer) + vector.Y);
             }
         }
 
@@ -210,7 +211,6 @@ namespace TreeVisualizer.Views
             {
                 _isRightMousePressed = false;
             }
-
         }
 
         private void ChangeMode()
@@ -226,12 +226,12 @@ namespace TreeVisualizer.Views
             }
             AddMenu.Visibility = Visibility.Hidden;
             ChangeTypeMenu.Visibility = Visibility.Hidden;
-            ChangeNodeMenu.Visibility = Visibility.Hidden;
+            //ChangeNodeMenu.Visibility = Visibility.Hidden;
             ExportMode.Visibility = Visibility.Hidden;
             ImportMode.Visibility = Visibility.Hidden;
             DeleteMenu.Visibility = Visibility.Hidden;
             TraverseMenu.Visibility = Visibility.Hidden;
-            FindMenu.Visibility = Visibility.Hidden;
+            //FindMenu.Visibility = Visibility.Hidden;
             int index = -1;
             switch (currentMode)
             {
@@ -241,7 +241,7 @@ namespace TreeVisualizer.Views
                     break;
                 case ToolBarMode.Update:
                     index = 1;
-                    ChangeNodeMenu.Visibility = Visibility.Visible;
+                    //ChangeNodeMenu.Visibility = Visibility.Visible;
                     break;
                 case ToolBarMode.Delete:
                     index = 2;
@@ -249,7 +249,7 @@ namespace TreeVisualizer.Views
                     break;
                 case ToolBarMode.Search:
                     index = 3;
-                    FindMenu.Visibility = Visibility.Visible;
+                    //FindMenu.Visibility = Visibility.Visible;
                     break;
                 case ToolBarMode.Traverse:
                     index = 4;
@@ -407,7 +407,7 @@ namespace TreeVisualizer.Views
             Tree.RemoveNode(DeleteValue.Text);
             JustifyCenterTree();
         }
-
+        /*
         private void AmountGenField_GotFocus(object sender, RoutedEventArgs e)
         {
             if (AmountGenField.Text.Trim().ToUpper().Equals("AMOUNT"))
@@ -487,7 +487,7 @@ namespace TreeVisualizer.Views
             BtnGenerate.BorderBrush = Brushes.Black;
             BtnGenerate.BorderThickness = new Thickness(2);
         }
-
+        */
         private void BtnAdd_GotFocus(object sender, RoutedEventArgs e)
         {
             SolidColorBrush brush = new SolidColorBrush();
@@ -511,7 +511,7 @@ namespace TreeVisualizer.Views
         {
 
         }
-
+        /*
         #region before changeNodeVal
         private void BeforeChangeField_KeyDown(object sender, KeyEventArgs e)
         {
@@ -564,12 +564,9 @@ namespace TreeVisualizer.Views
                 BeforeChangeField.Text = null;
             }
         }
+        */
 
-        private async void OnChangeTreeType(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        /*
         private void BtnBeforeChange_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -578,11 +575,6 @@ namespace TreeVisualizer.Views
             }
         }
         #endregion
-
-        private void ChangeNodeMenu_LostFocus(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void BtnBeforeChange_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -613,6 +605,19 @@ namespace TreeVisualizer.Views
         }
 
         #endregion
+        */
+
+        private void ChangeNodeMenu_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void OnChangeTreeType(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
 
 
 
@@ -658,27 +663,57 @@ namespace TreeVisualizer.Views
 
         private void BtnLNR_Click(object sender, RoutedEventArgs e)
         {
-
+            TraverseValue.Text = "";
+            var traversalList = Tree.Traverse("LNR");
+            foreach (var str in traversalList)
+            {
+                TraverseValue.Text += str + "  ";
+            }
         }
         private void BtnLRN_Click(object sender, RoutedEventArgs e)
         {
-
+            TraverseValue.Text = "";
+            var traversalList = Tree.Traverse("LRN");
+            foreach (var str in traversalList)
+            {
+                TraverseValue.Text += str + "  ";
+            }
         }
         private void BtnNLR_Click(object sender, RoutedEventArgs e)
         {
-
+            TraverseValue.Text = "";
+            var traversalList = Tree.Traverse("NLR");
+            foreach (var str in traversalList)
+            {
+                TraverseValue.Text += str + "  ";
+            }
         }
         private void BtnNRL_Click(object sender, RoutedEventArgs e)
         {
-
+            TraverseValue.Text = "";
+            var traversalList = Tree.Traverse("NRL");
+            foreach (var str in traversalList)
+            {
+                TraverseValue.Text += str + "  ";
+            }
         }
         private void BtnRLN_Click(object sender, RoutedEventArgs e)
         {
-
+            TraverseValue.Text = "";
+            var traversalList = Tree.Traverse("RLN");
+            foreach (var str in traversalList)
+            {
+                TraverseValue.Text += str + "  ";
+            }
         }
         private void BtnRNL_Click(object sender, RoutedEventArgs e)
         {
-
+            TraverseValue.Text = "";
+            var traversalList = Tree.Traverse("RNL");
+            foreach (var str in traversalList)
+            {
+                TraverseValue.Text += str + "  ";
+            }
         }
 
         private void BtnFind_Click(object sender, RoutedEventArgs e)
@@ -698,22 +733,22 @@ namespace TreeVisualizer.Views
         private void RadioBinaryTree_Checked(object sender, RoutedEventArgs e)
         {
             Tree = new BinaryTreeUserControl();
-            canvas.Children.Clear();
-            canvas.Children.Add(Tree);
+            TreeContainer.Children.Clear();
+            TreeContainer.Children.Add(Tree);
         }
 
         private void RadioBSTree_Checked(object sender, RoutedEventArgs e)
         {
             Tree = new BinarySearchTreeUserControl();
-            canvas.Children.Clear();
-            canvas.Children.Add(Tree);
+            TreeContainer.Children.Clear();
+            TreeContainer.Children.Add(Tree);
         }
 
         private void RadioAVLTree_Checked(object sender, RoutedEventArgs e)
         {
             Tree = new AVLTreeUserControl();
-            canvas.Children.Clear();
-            canvas.Children.Add(Tree);
+            TreeContainer.Children.Clear();
+            TreeContainer.Children.Add(Tree);
         }
     }
 }

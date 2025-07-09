@@ -399,15 +399,20 @@ namespace TreeVisualizer.Components.Algorithm
                     TraverseLNR(Root, ref result);
                     break;
                 case "LRN":
-                    return TraverseLRN(result);
+                    TraverseLRN(Root, ref result);
+                    break;
                 case "NLR":
-                    return TraverseNLR(result);
+                    TraverseNLR(Root, ref result);
+                    break;
                 case "NRL":
-                    return TraverseNRL(result);
+                    TraverseNRL(Root, ref result);
+                    break;
                 case "RLN":
-                    return TraverseRLN(result);
+                    TraverseRLN(Root, ref result);
+                    break;
                 case "RNL":
-                    return TraverseRNL(result);
+                    TraverseRNL(Root, ref result);
+                    break;
                 default:
                     break;
             }
@@ -426,29 +431,59 @@ namespace TreeVisualizer.Components.Algorithm
             return result;
         }
 
-        private List<string> TraverseLRN(List<string> result)
+        private List<string> TraverseLRN(NodeUserControl? node, ref List<string> result)
         {
-            return new List<string>();
+            if (node == null) return result;
+
+            TraverseLNR(node.GetLeftNode(), ref result);
+            TraverseLNR(node.GetRightNode(), ref result);
+            Console.Write(node.Value + "  ");
+            result.Add(node.Value);
+            return result;
         }
 
-        private List<string> TraverseNLR(List<string> result)
+        private List<string> TraverseNLR(NodeUserControl? node, ref List<string> result)
         {
-            return new List<string>();
+            if (node == null) return result;
+
+            Console.Write(node.Value + "  ");
+            result.Add(node.Value);
+            TraverseLNR(node.GetLeftNode(), ref result);
+            TraverseLNR(node.GetRightNode(), ref result);
+            return result;
         }
 
-        private List<string> TraverseNRL(List<string> result)
+        private List<string> TraverseNRL(NodeUserControl? node, ref List<string> result)
         {
-            return new List<string>();
+            if (node == null) return result;
+
+            Console.Write(node.Value + "  ");
+            result.Add(node.Value);
+            TraverseLNR(node.GetRightNode(), ref result);
+            TraverseLNR(node.GetLeftNode(), ref result);
+            return result;
         }
 
-        private List<string> TraverseRLN(List<string> result)
+        private List<string> TraverseRLN(NodeUserControl? node, ref List<string> result)
         {
-            return new List<string>();
+            if (node == null) return result;
+
+            TraverseLNR(node.GetRightNode(), ref result);
+            TraverseLNR(node.GetLeftNode(), ref result);
+            Console.Write(node.Value + "  ");
+            result.Add(node.Value);
+            return result;
         }
 
-        private List<string> TraverseRNL(List<string> result)
+        private List<string> TraverseRNL(NodeUserControl? node, ref List<string> result)
         {
-            return new List<string>();
+            if (node == null) return result;
+
+            TraverseLNR(node.GetRightNode(), ref result);
+            Console.Write(node.Value + "  ");
+            result.Add(node.Value);
+            TraverseLNR(node.GetLeftNode(), ref result);
+            return result;
         }
 
         public virtual NodeUserControl? FindNode(string value)
